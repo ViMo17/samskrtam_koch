@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Санскрит: Учебный комплекс (Кочергина, Урок 12)</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #e74c3c; --bg: #ecf0f1; --correct: #27ae60; --border: #bdc3c7; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--primary); margin: 0; padding: 0; font-size: 15px; padding-bottom: 50px; }
+        .sanskrit { font-family: "Sanskrit Text", "Mangal", "Arial Unicode MS", sans-serif; font-weight: bold; color: #2980b9; font-size: 1.2em;}
+        
+        /* Loading Overlay */
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #2c3e50; }
+        .spinner { border: 6px solid #f3f3f3; border-top: 6px solid #3498db; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 20px;}
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        nav { background: #34495e; padding: 10px; position: sticky; top: 0; z-index: 1000; display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .nav-btn { background: #2c3e50; color: white; border: 1px solid #7f8c8d; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
+        .nav-btn:hover, .nav-btn.active { background: #3498db; border-color: #2980b9; }
+
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+        .step-section { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .step-section.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        h1, h2, h3 { text-align: center; margin-top: 0; }
+        .section-desc { text-align: center; color: #7f8c8d; margin-bottom: 20px; font-size: 14px;}
+
+        /* Теория 3x3 */
+        .theory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+        .theory-card { padding: 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 50px; font-weight: 500; transition: 0.2s; }
+        .theory-card.success { background-color: var(--correct) !important; color: white !important; border-color: #219a52 !important; }
+        .theory-card.error { background-color: var(--accent) !important; color: white !important; border-color: #c0392b !important; }
+        .theory-box { background: #fdfdfd; border-left: 4px solid #3498db; padding: 15px; margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
+
+        /* Drag & Drop */
+        .split-layout { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 20px;}
+        .table-container { flex: 1.5; }
+        .pool-container { flex: 1; background: #fdfdfd; padding: 15px; border-radius: 6px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; align-items: flex-start;}
+        
+        .draggable { background: var(--primary); color: white; padding: 8px 12px; border-radius: 4px; cursor: grab; font-weight: bold; font-size: 14px; text-align: center; box-shadow: 0 2px 3px rgba(0,0,0,0.2); user-select: none; display: inline-block;}
+        .draggable:active { cursor: grabbing; box-shadow: none; transform: translateY(1px); }
+        .draggable.locked { background: var(--correct); cursor: default; pointer-events: none; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 14px; background: white;}
+        th, td { border: 1px solid var(--border); padding: 8px; text-align: left; }
+        th { background-color: #f1f2f6; text-align: center; }
+        
+        .cell-content { display: flex; align-items: center; justify-content: flex-start; gap: 10px; }
+        .label { font-weight: bold; color: #7f8c8d; min-width: 80px; text-align: right; padding-right: 10px; }
+        .dropzone { width: 120px; height: 38px; background: #fafafa; border: 2px dashed #bdc3c7; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;}
+        .dropzone.dragover { background: #e0f7fa; border-color: #00bcd4; }
+        .dropzone.success-zone { background-color: #e8f8f5; border-color: var(--correct); border-style: solid; }
+        .dropzone.error-zone { background-color: #fdedec; border-color: var(--accent); border-style: solid; }
+        .dropzone .draggable { margin: 0; box-shadow: none; width: 100%; box-sizing: border-box;}
+
+        /* Словарь 2x2 */
+        .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 768px) { .vocab-grid { grid-template-columns: 1fr; } }
+        .quiz-card { background: #fdfdfd; border: 1px solid var(--border); border-radius: 6px; padding: 15px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .quiz-word { font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #2c3e50; }
+        .quiz-sub { font-size: 13px; color: #7f8c8d; margin-bottom: 15px; font-weight: normal; }
+        .options-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .opt-btn { background: white; border: 2px solid var(--border); padding: 10px; border-radius: 4px; cursor: pointer; font-weight: 500; transition: 0.2s; font-size: 13px; line-height: 1.3;}
+        .opt-btn:hover { background: #f1f2f6; }
+        .opt-btn.correct { background: var(--correct) !important; color: white; border-color: #219a52 !important; pointer-events: none; }
+        .opt-btn.wrong { background: var(--accent) !important; color: white; border-color: #c0392b !important; }
+
+        /* Memrise Mode */
+        .memrise-container { text-align: center; max-width: 600px; margin: 0 auto; padding: 30px; border: 2px solid var(--border); border-radius: 8px; background: #fff;}
+        .progress-bar { width: 100%; background: #eee; border-radius: 10px; height: 12px; margin-bottom: 20px; overflow: hidden;}
+        .progress-fill { height: 100%; background: #3498db; width: 0%; transition: width 0.3s; }
+        .progress-text { font-size: 13px; color: #7f8c8d; margin-bottom: 20px; font-weight: bold;}
+        .mem-word { font-size: 32px; font-weight: bold; margin-bottom: 10px; color: var(--primary); }
+
+        /* Two-Stage Sandhi */
+        .stage-box { background: #f4f6f7; border: 1px solid #ccc; padding: 20px; border-radius: 6px; margin-bottom: 30px; }
+        .sentence-header { font-size: 22px; font-weight: bold; text-align: center; color: #2c3e50; }
+        .sentence-sub { font-size: 16px; font-weight: normal; color: #7f8c8d; text-align: center; margin-bottom: 20px; border-bottom: 2px solid #3498db; padding-bottom: 15px;}
+        .sandhi-row { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;}
+        .sandhi-row .dropzone { min-width: 120px; height: 40px; }
+        .sandhi-pool { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; background: white; padding: 15px; border: 1px dashed #aaa; border-radius: 6px; min-height: 50px; margin-bottom: 20px;}
+        .translate-stage { display: none; margin-top: 20px; animation: fadeIn 0.5s; border-top: 2px dashed #bdc3c7; padding-top: 20px;}
+
+        /* Конструктор 'ca' */
+        .dd-task { background: #fff; border: 1px solid #ccc; padding: 20px; border-radius: 6px; margin-bottom: 20px; }
+        .dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px; }
+        .dd-pool { display: flex; gap: 10px; min-height: 50px; padding: 15px; background: #f9f9f9; border: 1px dashed #aaa; margin-bottom: 15px; border-radius: 4px; flex-wrap: wrap; justify-content: center;}
+        .dd-row-label { font-size: 14px; color: #555; margin-bottom: 10px; font-weight: bold; text-align: center;}
+        .dd-zones { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;}
+        
+        .action-btns { display: flex; gap: 15px; justify-content: center; margin-top: 25px;}
+        .btn-main { padding: 12px 25px; background-color: var(--correct); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-main:hover { background-color: #219a52; }
+        .btn-sec { padding: 12px 25px; background-color: #3498db; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-sec:hover { background-color: #2980b9; }
+        .error-msg { text-align: center; margin-top: 10px; font-weight: bold; display: none; padding: 10px; border-radius: 4px; color: #c0392b; background: #fadbd8; }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="spinner"></div>
+        <div>Загрузка базы данных из Google Таблиц...</div>
+    </div>
+
+    <nav id="navbar" style="display:none;">
+        <button class="nav-btn active" onclick="navTo('theory')">Теория (Оптатив)</button>
+        <button class="nav-btn" onclick="navTo('decl')">Склонения (ī, ū)</button>
+        <button class="nav-btn" onclick="navTo('fem')">Женский род</button>
+        <button class="nav-btn" onclick="navTo('vocab-l12')">Словарь Ур.12</button>
+        <button class="nav-btn" onclick="navTo('memrise')">Мемрайз 1-12</button>
+        <button class="nav-btn" onclick="navTo('sandhi-ca')">Сандхи 'ca'</button>
+        <button class="nav-btn" onclick="navTo('two-stage')">Разбор текстов</button>
+    </nav>
+
+    <div class="container" id="main-container" style="display:none;">
+        
+        <div id="theory" class="step-section active">
+            <h2>Значения и образование Optativus</h2>
+            <div class="theory-box">
+                <b>Конструирование:</b> Оптатив образуется от основы настоящего времени прибавлением суффикса <b>-ī-</b> (или -ya-) и вторичных личных окончаний. <br>
+                <i>Внутренние сандхи:</i> Гласная основы <b>-a-</b> сливается с суффиксом <b>-ī-</b>: <code>-a- + -ī- = -e-</code>. <br>
+                Например: <i>likha- + ī + t = likhet</i>.
+            </div>
+            <p class="section-desc">1. Выберите все верные значения желательного наклонения. Верные варианты останутся зелеными навсегда.</p>
+            <div class="theory-grid" id="theoryGrid">
+                <div class="theory-card" data-correct="true">Пожелание или совет («пожалуйста...»)</div>
+                <div class="theory-card" data-correct="false">Категоричный приказ (2-е лицо)</div>
+                <div class="theory-card" data-correct="true">Условие действия (yadi... tadā)</div>
+                <div class="theory-card" data-correct="false">Завершенное действие в прошлом</div>
+                <div class="theory-card" data-correct="true">Предписание («следует...»)</div>
+                <div class="theory-card" data-correct="true">Возможность, сомнение («кажется...»)</div>
+                <div class="theory-card" data-correct="false">Действие в отдаленном будущем</div>
+                <div class="theory-card" data-correct="true">Уступительное значение (yathā + opt)</div>
+                <div class="theory-card" data-correct="true">Вероятность в ближайшем будущем</div>
+            </div>
+            <hr style="margin: 40px 0; border: 1px solid #eee;">
+            <h2>Спряжение (Parasmaipada и Ātmanepada)</h2>
+            <p class="section-desc">2. Заполните две параллельные матрицы спряжений.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;" id="opt-tables-container">
+                <div>
+                    <table>
+                        <tr><td colspan="4" style="background:#eaeded; text-align:center; font-weight:bold;">likh (Parasmaipada)</td></tr>
+                        <tr><th>Лицо</th><th>Sg.</th><th>Du.</th><th>Pl.</th></tr>
+                        <tr><td>1 л.</td><td><div class="dropzone" data-ans="likhéyam"></div></td><td><div class="dropzone" data-ans="likhéva"></div></td><td><div class="dropzone" data-ans="likhéma"></div></td></tr>
+                        <tr><td>2 л.</td><td><div class="dropzone" data-ans="likhés"></div></td><td><div class="dropzone" data-ans="likhétam"></div></td><td><div class="dropzone" data-ans="likhéta"></div></td></tr>
+                        <tr><td>3 л.</td><td><div class="dropzone" data-ans="likhét"></div></td><td><div class="dropzone" data-ans="likhétām"></div></td><td><div class="dropzone" data-ans="likhéyur"></div></td></tr>
+                    </table>
+                </div>
+                <div>
+                    <table>
+                        <tr><td colspan="4" style="background:#eaeded; text-align:center; font-weight:bold;">bhāṣ (Ātmanepada)</td></tr>
+                        <tr><th>Лицо</th><th>Sg.</th><th>Du.</th><th>Pl.</th></tr>
+                        <tr><td>1 л.</td><td><div class="dropzone" data-ans="bhāṣeya"></div></td><td><div class="dropzone" data-ans="bhāṣevahi"></div></td><td><div class="dropzone" data-ans="bhāṣemahi"></div></td></tr>
+                        <tr><td>2 л.</td><td><div class="dropzone" data-ans="bhāṣethās"></div></td><td><div class="dropzone" data-ans="bhāṣeyāthām"></div></td><td><div class="dropzone" data-ans="bhāṣedhvam"></div></td></tr>
+                        <tr><td>3 л.</td><td><div class="dropzone" data-ans="bhāṣeta"></div></td><td><div class="dropzone" data-ans="bhāṣeyātām"></div></td><td><div class="dropzone" data-ans="bhāṣeran"></div></td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="sandhi-pool" id="poolOpt" data-pool="poolOpt"></div>
+            <div class="error-msg" id="errOpt">Есть ошибки в спряжении!</div>
+            <div class="action-btns">
+                <button class="btn-main" onclick="checkGridSpecific('opt-tables-container', 'errOpt')">Проверить матрицы</button>
+            </div>
+        </div>
+
+        <div id="decl" class="step-section">
+            <h2>Склонение основ на -ī и -ū</h2>
+            <h3 class="sanskrit" style="text-align:left; margin-bottom: 10px;">nadī (नदी) f - река</h3>
+            <div class="split-layout">
+                <div class="table-container">
+                    <table id="tableNadi">
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ЕДИНСТВЕННОЕ</td></tr>
+                        <tr><td style="width:50%"><div class="cell-content"><span class="label">N.sg</span><div class="dropzone" data-ans="nadī"></div></div></td><td style="width:50%"><div class="cell-content"><span class="label">V.sg</span><div class="dropzone" data-ans="nádi"></div></div></td></tr>
+                        <tr><td><div class="cell-content"><span class="label">A.sg</span><div class="dropzone" data-ans="nadīm"></div></div></td><td><div class="cell-content"><span class="label">I.sg</span><div class="dropzone" data-ans="nadyā"></div></div></td></tr>
+                        <tr><td><div class="cell-content"><span class="label">D.sg</span><div class="dropzone" data-ans="nadyai"></div></div></td><td><div class="cell-content"><span class="label">Abl.G.sg</span><div class="dropzone" data-ans="nadyās"></div></div></td></tr>
+                        <tr><td colspan="2"><div class="cell-content" style="padding-left: 20%;"><span class="label">L.sg</span><div class="dropzone" data-ans="nadyām"></div></div></td></tr>
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ДВОЙСТВЕННОЕ</td></tr>
+                        <tr><td><div class="cell-content"><span class="label">N.A.V.du</span><div class="dropzone" data-ans="nadyau"></div></div></td><td><div class="cell-content"><span class="label">G.L.du</span><div class="dropzone" data-ans="nadyos"></div></div></td></tr>
+                        <tr><td colspan="2"><div class="cell-content" style="padding-left: 20%;"><span class="label">I.D.Ab.du</span><div class="dropzone" data-ans="nadībhyām"></div></div></td></tr>
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">МНОЖЕСТВЕННОЕ</td></tr>
+                        <tr><td><div class="cell-content"><span class="label">N.V.pl</span><div class="dropzone" data-ans="nadyas"></div></div></td><td><div class="cell-content"><span class="label">A.pl</span><div class="dropzone" data-ans="nadīs"></div></div></td></tr>
+                        <tr><td><div class="cell-content"><span class="label">I.pl</span><div class="dropzone" data-ans="nadībhis"></div></div></td><td><div class="cell-content"><span class="label">D.Abl.pl</span><div class="dropzone" data-ans="nadībhyas"></div></div></td></tr>
+                        <tr><td><div class="cell-content"><span class="label">G.pl</span><div class="dropzone" data-ans="nadīnām"></div></div></td><td><div class="cell-content"><span class="label">L.pl</span><div class="dropzone" data-ans="nadīṣu"></div></div></td></tr>
+                    </table>
+                </div>
+                <div class="pool-container" id="poolNadi" data-pool="poolNadi"></div>
+            </div>
+            <div class="error-msg" id="errNadi">Ошибки в склонении nadī!</div>
+            <div class="action-btns"><button class="btn-main" onclick="checkGridSpecific('tableNadi', 'errNadi')">Проверить Nadī</button></div>
+
+            <hr style="margin: 40px 0; border: 1px solid #eee;">
+            
+            <h3 class="sanskrit" style="text-align:left; margin-bottom: 10px;">vadhū (वधू) f - невеста</h3>
+            <div class="split-layout">
+                <div class="table-container">
+                    <table id="tableVadhu">
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ЕДИНСТВЕННОЕ</td></tr>
+                        <tr><td style="width:50%"><div class="cell-content"><span class="label">N.sg</span><div class="dropzone" data-ans="vadhūs"></div></div></td><td style="width:50%"><div class="cell-content"><span class="label">V.sg</span><div class="dropzone" data-ans="vádhu"></div></div></td></tr>
+                        <tr><td><div class="cell-content"><span class="label">A.sg</span><div class="dropzone" data-ans="vadhūm"></div></div></td><td><div class="cell-content"><span class="label">I.sg</span><div class="dropzone" data-ans="vadhvā"></div></div></td></tr>
+                        <tr><td><div class="cell-content"><span class="label">D.sg</span><div class="dropzone" data-ans="vadhvai"></div></div></td><td><div class="cell-content"><span class="label">Abl.G.sg</span><div class="dropzone" data-ans="vadhvās"></div></div></td></tr>
+                        <tr><td colspan="2"><div class="cell-content" style="padding-left: 20%;"><span class="label">L.sg</span><div class="dropzone" data-ans="vadhvām"></div></div></td></tr>
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ДВОЙСТВЕННОЕ</td></tr>
+                        <tr><td><div class="cell-content"><span class="label">N.A.V.du</span><div class="dropzone" data-ans="vadhvau"></div></div></td><td><div class="cell-content"><span class="label">G.L.du</span><div class="dropzone" data-ans="vadhvos"></div></div></td></tr>
+                        <tr><td colspan="2"><div class="cell-content" style="padding-left: 20%;"><span class="label">I.D.Ab.du</span><div class="dropzone" data-ans="vadhūbhyām"></div></div></td></tr>
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">МНОЖЕСТВЕННОЕ</td></tr>
+                        <tr><td><div class="cell-content"><span class="label">N.V.pl</span><div class="dropzone" data-ans="vadhvās"></div></div></td><td><div class="cell-content"><span class="label">A.pl</span><div class="dropzone" data-ans="vadhūs"></div></div></td></tr>
+                        <tr><td><div class="cell-content"><span class="label">I.pl</span><div class="dropzone" data-ans="vadhūbhis"></div></div></td><td><div class="cell-content"><span class="label">D.Abl.pl</span><div class="dropzone" data-ans="vadhūbhyas"></div></div></td></tr>
+                        <tr><td><div class="cell-content"><span class="label">G.pl</span><div class="dropzone" data-ans="vadhūnām"></div></div></td><td><div class="cell-content"><span class="label">L.pl</span><div class="dropzone" data-ans="vadhūṣu"></div></div></td></tr>
+                    </table>
+                </div>
+                <div class="pool-container" id="poolVadhu" data-pool="poolVadhu"></div>
+            </div>
+            <div class="error-msg" id="errVadhu">Ошибки в склонении vadhū!</div>
+            <div class="action-btns"><button class="btn-main" onclick="checkGridSpecific('tableVadhu', 'errVadhu')">Проверить Vadhū</button></div>
+        </div>
+
+        <div id="fem" class="step-section">
+            <h2>Образование существительных женского рода</h2>
+            <div id="fem-container" class="vocab-grid"></div>
+            <div class="action-btns"><button class="btn-sec" onclick="renderFemTask()">Обновить тест (Случайно)</button></div>
+        </div>
+
+        <div id="vocab-l12" class="step-section">
+            <h2>Новые слова (Урок 12)</h2>
+            <div id="vocab-l12-container" class="vocab-grid"></div>
+            <div class="action-btns"><button class="btn-sec" onclick="loadNextVocabPage()">Еще 10 слов</button></div>
+        </div>
+
+        <div id="memrise" class="step-section">
+            <h2>Тренажер Memrise (Уроки 1-12)</h2>
+            <div class="memrise-container">
+                <div class="progress-bar"><div class="progress-fill" id="memProgress"></div></div>
+                <div class="progress-text" id="memText">0 / 0</div>
+                <div class="mem-word sanskrit" id="memWord">загрузка...</div>
+                <div class="options-2x2" id="memOptions"></div>
+            </div>
+            <div class="action-btns"><button class="btn-sec" onclick="startMemrise()">Начать заново</button></div>
+        </div>
+
+        <div id="sandhi-ca" class="step-section">
+            <h2>Сандхи с энклитикой <i>ca</i></h2>
+            <div id="ca-container"></div>
+        </div>
+
+        <div id="two-stage" class="step-section">
+            <h2>Двухэтапный разбор предложений (Упр. 4 и 5)</h2>
+            <div id="two-stage-container"></div>
+        </div>
+    </div>
+
+    <script>
+        /* ================= GOOGLE SHEETS CSV URLs ================= */
+        // Мы преобразуем ссылки pubhtml в прямые ссылки на сырой CSV формат
+        const URL_VOCAB = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=0&single=true&output=csv";
+        const URL_SANDHI = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=574162119&single=true&output=csv";
+        const URL_TEXTS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=1185560149&single=true&output=csv";
+
+        /* ================= БАЗА ДАННЫХ (Пустая, заполнится из Гугла) ================= */
+        const DB = {
+            // Статичные таблицы (они жестко прошиты правилами грамматики, их нет смысла качать)
+            opt: ['likhéyam','likhéva','likhéma','likhés','likhétam','likhéta','likhét','likhétām','likhéyur','bhāṣeya','bhāṣevahi','bhāṣemahi','bhāṣethās','bhāṣeyāthām','bhāṣedhvam','bhāṣeta','bhāṣeyātām','bhāṣeran'],
+            nadi: ['nadī','nádi','nadīm','nadyā','nadyai','nadyās','nadyām','nadyau','nadyos','nadībhyām','nadyas','nadīs','nadībhis','nadībhyas','nadīnām','nadīṣu'],
+            vadhu: ['vadhūs','vádhu','vadhūm','vadhvā','vadhvai','vadhvās','vadhvām','vadhvau','vadhvos','vadhūbhyām','vadhvās','vadhūs','vadhūbhis','vadhūbhyas','vadhūnām','vadhūṣu'],
+            fem: [
+                { iast: "deva", dev: "देव", ans: "devī", traps: ["devā","devikā","devi"], trans: "бог — богиня" },
+                { iast: "naṭa", dev: "नट", ans: "naṭī", traps: ["naṭā","naṭikā","naṭu"], trans: "актер — актриса" },
+                { iast: "siṃha", dev: "सिंह", ans: "siṃhī", traps: ["siṃhā","siṃhikā","siṃhi"], trans: "лев — львица" },
+                { iast: "haṃsa", dev: "हंस", ans: "haṃsī", traps: ["haṃsā","haṃsikā","haṃsu"], trans: "гусь — гусыня" },
+                { iast: "mayūra", dev: "मयूर", ans: "mayūrī", traps: ["mayūrā","mayūrikā","mayūri"], trans: "павлин — пава" },
+                { iast: "bālaka", dev: "बालक", ans: "bālikā", traps: ["bālakī","bālakā","bālī"], trans: "мальчик — девочка" },
+                { iast: "gāyaka", dev: "गायक", ans: "gāyikā", traps: ["gāyakī","gāyakā","gāyī"], trans: "певец — певица" },
+                { iast: "nāra", dev: "नार", ans: "nārī", traps: ["nārā","nārikā","nāri"], trans: "мужчина — женщина" }
+            ],
+            femExc: [
+                { iast: "suta", dev: "सुत", ans: "sutā", traps: ["sutī","sutikā","suti"], trans: "сын — дочь" },
+                { iast: "aja", dev: "अज", ans: "ajā", traps: ["ajī","ajikā","aju"], trans: "козел — коза" },
+                { iast: "aśva", dev: "अश्व", ans: "aśvā", traps: ["aśvī","aśvikā","aśvi"], trans: "конь — кобыла" },
+                { iast: "kokila", dev: "कोकिल", ans: "kokilā", traps: ["kokilī","kokilikā","kokili"], trans: "кукушка (самец-самка)" }
+            ],
+            // Динамические массивы из Гугл Таблиц
+            vocab12: [], 
+            sandhiCa: [],
+            texts: []
+        };
+
+        /* ================= ПАРСЕР CSV ================= */
+        // Надежный парсер CSV, который понимает кавычки, запятые внутри ячеек и переносы строк
+        function parseCSV(str) {
+            let arr = []; let quote = false; let row = 0, col = 0;
+            for (let c = 0; c < str.length; c++) {
+                let cc = str[c], nc = str[c+1];
+                arr[row] = arr[row] || []; arr[row][col] = arr[row][col] || '';
+                if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
+                if (cc == '"') { quote = !quote; continue; }
+                if (cc == ',' && !quote) { ++col; continue; }
+                if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
+                if (cc == '\n' && !quote) { ++row; col = 0; continue; }
+                if (cc == '\r' && !quote) { ++row; col = 0; continue; }
+                arr[row][col] += cc;
+            }
+            return arr;
+        }
+
+        /* ================= ЗАГРУЗКА ДАННЫХ ================= */
+        async function fetchGoogleSheets() {
+            try {
+                // Скачиваем 3 таблицы одновременно
+                const [resVocab, resSandhi, resTexts] = await Promise.all([
+                    fetch(URL_VOCAB), fetch(URL_SANDHI), fetch(URL_TEXTS)
+                ]);
+
+                const csvVocab = await resVocab.text();
+                const csvSandhi = await resSandhi.text();
+                const csvTexts = await resTexts.text();
+
+                // 1. Парсим Vocab
+                const rowsVocab = parseCSV(csvVocab).slice(1); // убираем заголовок
+                rowsVocab.forEach(r => {
+                    if(r.length >= 6 && r[0]) DB.vocab12.push(r);
+                });
+
+                // 2. Парсим Sandhi
+                const rowsSandhi = parseCSV(csvSandhi).slice(1);
+                rowsSandhi.forEach(r => {
+                    if(r.length >= 4 && r[0]) {
+                        DB.sandhiCa.push({
+                            ru: r[0],
+                            row1: r[1].split(','),
+                            row2: r[2].split(','),
+                            pool: r[3].split(',')
+                        });
+                    }
+                });
+
+                // 3. Парсим Texts (Группируем по SentenceID)
+                const rowsTexts = parseCSV(csvTexts).slice(1);
+                let textMap = {};
+                rowsTexts.forEach(r => {
+                    if(r.length >= 8 && r[0]) {
+                        let sid = r[0];
+                        if(!textMap[sid]) {
+                            textMap[sid] = { id: sid, title_dev: r[1], title_iast: r[2], parts: [], pool: [], words: [] };
+                        }
+                        textMap[sid].parts.push(r[4]); // WordIAST для сандхи-ячеек
+                        textMap[sid].pool.push(r[4]);  // Добавляем в общий пул
+                        
+                        // Создаем пару фейковых ловушек для сандхи, если пользователь не указал их в таблице
+                        let t = r[4];
+                        if(t.endsWith('s')) textMap[sid].pool.push(t.slice(0,-1)+'r');
+                        else if(t.endsWith('n')) textMap[sid].pool.push(t.slice(0,-1)+'m');
+                        else textMap[sid].pool.push(t+'s');
+
+                        textMap[sid].words.push({
+                            q_dev: r[3], q_iast: r[4], a: r[5], d: [r[6], r[7]]
+                        });
+                    }
+                });
+                DB.texts = Object.values(textMap);
+
+                // Запускаем интерфейс
+                initApp();
+
+            } catch (error) {
+                console.error("Ошибка загрузки данных:", error);
+                document.getElementById('loader').innerHTML = "<div style='color:red;'>Ошибка загрузки данных из Google Таблиц. Проверьте правильность ссылок.</div>";
+            }
+        }
+
+        /* ================= УТИЛИТЫ И ЯДРО ================= */
+        function shuffle(a) { for(let i = a.length-1; i>0; i--){const j = Math.floor(Math.random()*(i+1)); [a[i], a[j]]=[a[j], a[i]];} return a; }
+
+        function populatePool(poolId, dataArray) {
+            const pool = document.getElementById(poolId);
+            if(!pool) return;
+            pool.innerHTML = '';
+            // Убираем дубликаты из пула сандхи
+            let uniqueData = [...new Set(dataArray)];
+            shuffle(uniqueData).forEach((text, i) => {
+                const el = document.createElement('div');
+                el.className = 'draggable'; el.draggable = true; 
+                el.id = poolId + '_drag_' + i; el.dataset.pool = poolId;
+                el.textContent = text;
+                pool.appendChild(el);
+            });
+        }
+
+        /* ДЕЛЕГИРОВАННЫЙ DRAG & DROP (Не ломается при перерисовке) */
+        document.addEventListener('dragstart', (e) => {
+            if (e.target.classList && e.target.classList.contains('draggable')) {
+                if(e.target.classList.contains('locked')) { e.preventDefault(); return; }
+                e.dataTransfer.setData('text/plain', e.target.id);
+                setTimeout(() => e.target.style.opacity = '0.5', 0);
+            }
+        });
+        document.addEventListener('dragend', (e) => {
+            if (e.target.classList && e.target.classList.contains('draggable')) e.target.style.opacity = '1';
+        });
+        document.addEventListener('dragover', (e) => {
+            if (e.target.classList && e.target.classList.contains('dropzone')) {
+                e.preventDefault();
+                if(!e.target.classList.contains('locked')) e.target.classList.add('dragover');
+            }
+            if (e.target.classList && (e.target.classList.contains('pool-container') || e.target.classList.contains('sandhi-pool'))) e.preventDefault();
+        });
+        document.addEventListener('dragleave', (e) => {
+            if (e.target.classList && e.target.classList.contains('dropzone')) e.target.classList.remove('dragover');
+        });
+        document.addEventListener('drop', (e) => {
+            let target = e.target;
+            if (target.classList && (target.classList.contains('dropzone') || target.classList.contains('pool-container') || target.classList.contains('sandhi-pool'))) {
+                e.preventDefault();
+                target.classList.remove('dragover');
+                if(target.classList.contains('locked')) return;
+                
+                const id = e.dataTransfer.getData('text/plain');
+                const draggedEl = document.getElementById(id);
+                if(!draggedEl) return;
+
+                if (target.classList.contains('dropzone') && target.children.length > 0) {
+                    const existing = target.children[0];
+                    const poolId = draggedEl.dataset.pool;
+                    if(poolId) {
+                        const hp = document.getElementById(poolId);
+                        if(hp) hp.appendChild(existing);
+                    }
+                }
+                target.appendChild(draggedEl);
+                target.classList.remove('error-zone', 'success-zone');
+            }
+        });
+
+        /* ================= ЛОГИКА ИНТЕРФЕЙСА ================= */
+        window.handleOptClick = function(btn, isCorrect) {
+            if (isCorrect) {
+                btn.classList.add('correct');
+                btn.parentElement.querySelectorAll('.opt-btn').forEach(s => { s.style.pointerEvents = 'none'; if(!s.classList.contains('correct')) s.style.opacity = '0.5'; });
+            } else btn.classList.add('wrong');
+        };
+
+        function renderFemTask() {
+            const container = document.getElementById('fem-container');
+            container.innerHTML = '';
+            let std = shuffle([...DB.fem]).slice(0, 3);
+            let exc = shuffle([...DB.femExc]).slice(0, 1);
+            let combined = shuffle([...std, ...exc]);
+
+            combined.forEach(item => {
+                const card = document.createElement('div'); card.className = 'quiz-card';
+                let options = [{t: item.ans, c: true}];
+                item.traps.forEach(trap => options.push({t: trap, c: false}));
+                options = shuffle(options);
+                let btnsHtml = options.map(opt => `<button class="opt-btn" onclick="handleOptClick(this, ${opt.c})">${opt.t}</button>`).join('');
+                card.innerHTML = `<div class="quiz-word sanskrit">${item.dev} <br><span style="font-size:14px; font-weight:normal; color:#7f8c8d;">(${item.iast})</span></div><div class="quiz-sub">${item.trans}</div><div class="options-2x2">${btnsHtml}</div>`;
+                container.appendChild(card);
+            });
+        }
+
+        let vocabPage = 0;
+        function loadNextVocabPage() {
+            const container = document.getElementById('vocab-l12-container');
+            container.innerHTML = '';
+            const size = 10;
+            const slice = DB.vocab12.slice(vocabPage*size, (vocabPage*size)+size);
+            if(slice.length === 0) { vocabPage = 0; loadNextVocabPage(); return; }
+            
+            slice.forEach(item => {
+                const card = document.createElement('div'); card.className = 'quiz-card';
+                let options = [{t: item[2], c: true}, {t: item[3], c: false}, {t: item[4], c: false}, {t: item[5], c: false}];
+                options = shuffle(options.filter(o => o.t)); // Фильтруем пустые ловушки
+                let btnsHtml = options.map(opt => `<button class="opt-btn" onclick="handleOptClick(this, ${opt.c})">${opt.t}</button>`).join('');
+                card.innerHTML = `<div class="quiz-word sanskrit">${item[1]} <br><span style="font-size:14px; font-weight:normal; color:#7f8c8d;">(${item[0]})</span></div><div class="options-2x2">${btnsHtml}</div>`;
+                container.appendChild(card);
+            });
+            vocabPage++;
+        }
+
+        let memArray = [], memIndex = 0;
+        function startMemrise() {
+            memArray = shuffle([...DB.vocab12]);
+            memIndex = 0; showMemriseCard();
+        }
+        function showMemriseCard() {
+            if (memIndex >= memArray.length) { document.getElementById('memWord').innerHTML = "Тест пройден!"; document.getElementById('memOptions').innerHTML = ""; return; }
+            const item = memArray[memIndex];
+            document.getElementById('memText').textContent = `${memIndex + 1} / ${memArray.length}`;
+            document.getElementById('memProgress').style.width = `${((memIndex) / memArray.length) * 100}%`;
+            document.getElementById('memWord').innerHTML = `${item[1]} <br><span style="font-size:18px; color:#7f8c8d; font-weight:normal;">(${item[0]})</span>`;
+            
+            let options = [{t: item[2], c: true}, {t: item[3], c: false}, {t: item[4], c: false}, {t: item[5], c: false}];
+            options = shuffle(options.filter(o => o.t));
+            document.getElementById('memOptions').innerHTML = options.map(opt => `<button class="opt-btn" onclick="memClick(this, ${opt.c})">${opt.t}</button>`).join('');
+        }
+        window.memClick = function(btn, isCorrect) {
+            if (isCorrect) {
+                btn.classList.add('correct');
+                btn.parentElement.querySelectorAll('.opt-btn').forEach(s => s.style.pointerEvents = 'none');
+                document.getElementById('memProgress').style.width = `${((memIndex + 1) / memArray.length) * 100}%`;
+                memIndex++; setTimeout(showMemriseCard, 700);
+            } else btn.classList.add('wrong');
+        };
+
+        function renderCaDragDrop() {
+            const container = document.getElementById('ca-container');
+            let htmlStr = '';
+            DB.sandhiCa.forEach((task, index) => {
+                let poolId = `pool_ca_${index}`;
+                let row1Html = task.row1.map(ans => `<div class="dropzone" data-ans="${ans}"></div>`).join('');
+                let row2Html = task.row2.map(ans => `<div class="dropzone" data-ans="${ans}"></div>`).join('');
+                
+                htmlStr += `
+                    <div class="stage-box dd-task" id="dd_task_${index}">
+                        <div style="font-size:18px; font-weight:bold; margin-bottom:15px; text-align:center; color: #2980b9;">${task.ru}</div>
+                        <div class="sandhi-pool" id="${poolId}"></div>
+                        <div class="dd-grid">
+                            <div><div class="dd-row-label">1. Исходные формы:</div><div class="dd-zones row1">${row1Html}</div></div>
+                            <div><div class="dd-row-label">2. С учетом сандхи:</div><div class="dd-zones row2">${row2Html}</div></div>
+                        </div>
+                        <div class="error-msg err-ca">Ошибки в расстановке!</div>
+                        <div class="action-btns"><button class="btn-main" onclick="checkCaTask('${index}')">Проверить</button></div>
+                    </div>
+                `;
+            });
+            container.innerHTML = htmlStr;
+            DB.sandhiCa.forEach((task, index) => populatePool(`pool_ca_${index}`, task.pool));
+        }
+
+        window.checkCaTask = function(idx) {
+            const taskNode = document.getElementById(`dd_task_${idx}`);
+            let win = true;
+            taskNode.querySelectorAll('.dropzone').forEach(z => {
+                const child = z.children[0];
+                if(!child || child.textContent !== z.dataset.ans) { win=false; z.classList.add('error-zone'); z.classList.remove('success-zone');}
+                else { z.classList.add('success-zone'); z.classList.remove('error-zone');}
+            });
+            const err = taskNode.querySelector('.err-ca');
+            if(win) {
+                err.style.display='none';
+                taskNode.querySelectorAll('.draggable').forEach(d => d.classList.add('locked'));
+                taskNode.querySelectorAll('.dropzone').forEach(d => d.classList.add('locked'));
+                taskNode.querySelector('.btn-main').style.display = 'none';
+            } else { err.style.display='block'; setTimeout(() => taskNode.querySelectorAll('.error-zone').forEach(z => z.classList.remove('error-zone')), 2000); }
+        }
+
+        function renderTwoStage() {
+            const container = document.getElementById('two-stage-container');
+            let htmlStr = '';
+            DB.texts.forEach((block, idx) => {
+                let poolId = `pool_txt_${idx}`;
+                let dropHtml = block.parts.map(ans => `<div class="dropzone" data-ans="${ans}"></div>`).join('');
+                let wordsHtml = block.words.map(w => {
+                    let opts = [{t: w.a, c: true}]; 
+                    w.d.forEach(trap => { if(trap) opts.push({t:trap, c:false}); }); 
+                    opts=shuffle(opts);
+                    let btns = opts.map(o => `<button class="opt-btn" onclick="handleOptClick(this, ${o.c})">${o.t}</button>`).join('');
+                    return `<div class="quiz-card"><div class="quiz-word sanskrit">${w.q_dev} <br><span style="font-size:14px; color:#7f8c8d; font-weight:normal;">(${w.q_iast})</span></div><div class="options-2x2">${btns}</div></div>`;
+                }).join('');
+
+                htmlStr += `
+                    <div class="stage-box" id="stage_box_${idx}">
+                        <div class="sentence-header sanskrit">${block.title_dev}</div>
+                        <div class="sentence-sub">(${block.title_iast})</div>
+                        <div class="sandhi-pool" id="${poolId}"></div>
+                        <div class="sandhi-row">${dropHtml}</div>
+                        <div class="error-msg err-txt">Ошибки в снятии сандхи!</div>
+                        <div class="action-btns"><button class="btn-main" onclick="checkSandhiStage('${idx}')">Проверить сандхи</button></div>
+                        <div class="translate-stage vocab-grid" id="trans_stage_${idx}">${wordsHtml}</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = htmlStr;
+            DB.texts.forEach((block, idx) => populatePool(`pool_txt_${idx}`, block.pool));
+        }
+
+        window.checkSandhiStage = function(idx) {
+            const box = document.getElementById(`stage_box_${idx}`);
+            let win = true;
+            box.querySelectorAll('.sandhi-row .dropzone').forEach(z => {
+                const child = z.children[0];
+                if(!child || child.textContent !== z.dataset.ans) { win=false; z.classList.add('error-zone'); z.classList.remove('success-zone');}
+                else { z.classList.add('success-zone'); z.classList.remove('error-zone');}
+            });
+            const err = box.querySelector('.err-txt');
+            if(win) {
+                err.style.display='none';
+                box.querySelectorAll('.draggable').forEach(d => d.classList.add('locked'));
+                box.querySelectorAll('.dropzone').forEach(d => d.classList.add('locked'));
+                box.querySelector('.btn-main').style.display = 'none';
+                document.getElementById(`trans_stage_${idx}`).style.display = 'grid'; 
+            } else { err.style.display='block'; setTimeout(() => box.querySelectorAll('.error-zone').forEach(z => z.classList.remove('error-zone')), 2000); }
+        }
+
+        window.checkGridSpecific = function(containerId, errId) {
+            const container = document.getElementById(containerId);
+            let win = true;
+            container.querySelectorAll('.dropzone').forEach(z => {
+                const child = z.children[0];
+                if(!child || child.textContent !== z.dataset.ans) { win=false; z.classList.add('error-zone'); z.classList.remove('success-zone');}
+                else { z.classList.add('success-zone'); z.classList.remove('error-zone');}
+            });
+            if(win) document.getElementById(errId).style.display = 'none';
+            else { document.getElementById(errId).style.display = 'block'; setTimeout(() => container.querySelectorAll('.error-zone').forEach(z => z.classList.remove('error-zone')), 2000); }
+        }
+
+        window.navTo = function(id) {
+            document.querySelectorAll('.step-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        /* ================= INIT APP ================= */
+        function initApp() {
+            // Убираем лоадер и показываем интерфейс
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('navbar').style.display = 'flex';
+            document.getElementById('main-container').style.display = 'block';
+
+            populatePool('poolOpt', DB.opt);
+            populatePool('poolNadi', DB.nadi);
+            populatePool('poolVadhu', DB.vadhu);
+            
+            document.querySelectorAll('.theory-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    if (card.dataset.correct === 'true') card.classList.add('success');
+                    else card.classList.add('error');
+                });
+            });
+
+            renderFemTask();
+            loadNextVocabPage();
+            startMemrise();
+            renderCaDragDrop();
+            renderTwoStage();
+        }
+
+        // Запуск при загрузке страницы
+        document.addEventListener("DOMContentLoaded", fetchGoogleSheets);
+
+    </script>
+</body>
+</html>
