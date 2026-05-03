@@ -30,7 +30,6 @@
         .theory-card { padding: 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 50px; font-weight: 500; transition: 0.2s; }
         .theory-card.success { background-color: var(--correct) !important; color: white !important; border-color: #219a52 !important; }
         .theory-card.error { background-color: var(--accent) !important; color: white !important; border-color: #c0392b !important; }
-        .theory-box { background: #fdfdfd; border-left: 4px solid #3498db; padding: 15px; margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
 
         /* Drag & Drop */
         .split-layout { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 20px;}
@@ -54,11 +53,9 @@
         .dropzone.error-zone { background-color: #fdedec; border-color: var(--accent); border-style: solid; }
         .dropzone .draggable { margin: 0; box-shadow: none; width: 100%; box-sizing: border-box;}
 
-        /* Уровни сложности (Радиокнопки) */
+        /* Уровни сложности */
         .level-switcher { display: flex; justify-content: center; gap: 20px; background: #fdfdfd; border: 1px solid var(--border); border-radius: 6px; padding: 15px; margin-bottom: 25px; }
         .level-switcher label { font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; color: #2c3e50;}
-
-        /* Раздельные пулы Оптатива */
         .opt-pool-wrapper { padding: 15px; border: 1px dashed #aaa; background: #f9f9f9; min-height: 50px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 15px; border-radius: 4px;}
 
         /* Словарь 2x2 */
@@ -73,7 +70,7 @@
         .opt-btn.correct { background: var(--correct) !important; color: white; border-color: #219a52 !important; pointer-events: none; }
         .opt-btn.wrong { background: var(--accent) !important; color: white; border-color: #c0392b !important; }
 
-        /* Memrise Mode */
+        /* Memrise */
         .memrise-container { text-align: center; max-width: 600px; margin: 0 auto; padding: 30px; border: 2px solid var(--border); border-radius: 8px; background: #fff;}
         .progress-bar { width: 100%; background: #eee; border-radius: 10px; height: 12px; margin-bottom: 20px; overflow: hidden;}
         .progress-fill { height: 100%; background: #3498db; width: 0%; transition: width 0.3s; }
@@ -93,11 +90,13 @@
         .dd-row-label { font-size: 14px; color: #555; margin-bottom: 10px; font-weight: bold; text-align: center;}
         .dd-zones { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;}
         
-        .action-btns { display: flex; gap: 15px; justify-content: center; margin-top: 25px;}
+        .action-btns { display: flex; gap: 15px; justify-content: center; margin-top: 25px; flex-wrap: wrap;}
         .btn-main { padding: 12px 25px; background-color: var(--correct); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .btn-main:hover { background-color: #219a52; }
         .btn-sec { padding: 12px 25px; background-color: #3498db; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .btn-sec:hover { background-color: #2980b9; }
+        .btn-ans { padding: 12px 25px; background-color: #95a5a6; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-ans:hover { background-color: #7f8c8d; }
         .error-msg { text-align: center; margin-top: 10px; font-weight: bold; display: none; padding: 10px; border-radius: 4px; color: #c0392b; background: #fadbd8; }
     </style>
 </head>
@@ -146,9 +145,9 @@
                     <table id="tableLikh">
                         <tr><td colspan="4" style="background:#eaeded; text-align:center; font-weight:bold;">likh (Parasmaipada)</td></tr>
                         <tr><th>Лицо</th><th>Sg.</th><th>Du.</th><th>Pl.</th></tr>
-                        <tr><td>1 л.</td><td><div class="dropzone" data-ans="likhéyam"></div></td><td><div class="dropzone" data-ans="likhéva"></div></td><td><div class="dropzone" data-ans="likhéma"></div></td></tr>
-                        <tr><td>2 л.</td><td><div class="dropzone" data-ans="likhés"></div></td><td><div class="dropzone" data-ans="likhétam"></div></td><td><div class="dropzone" data-ans="likhéta"></div></td></tr>
-                        <tr><td>3 л.</td><td><div class="dropzone" data-ans="likhét"></div></td><td><div class="dropzone" data-ans="likhétām"></div></td><td><div class="dropzone" data-ans="likhéyur"></div></td></tr>
+                        <tr><td>1 л.</td><td><div class="dropzone" data-ans="likheyam"></div></td><td><div class="dropzone" data-ans="likheva"></div></td><td><div class="dropzone" data-ans="likhema"></div></td></tr>
+                        <tr><td>2 л.</td><td><div class="dropzone" data-ans="likhes"></div></td><td><div class="dropzone" data-ans="likhetam"></div></td><td><div class="dropzone" data-ans="likheta"></div></td></tr>
+                        <tr><td>3 л.</td><td><div class="dropzone" data-ans="likhet"></div></td><td><div class="dropzone" data-ans="likhetām"></div></td><td><div class="dropzone" data-ans="likheyur"></div></td></tr>
                     </table>
                     <div class="opt-pool-wrapper" id="poolOptLikh" data-pool="poolOptLikh"></div>
                 </div>
@@ -178,7 +177,7 @@
                 <div class="table-container">
                     <table id="tableNadi">
                         <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ЕДИНСТВЕННОЕ</td></tr>
-                        <tr><td style="width:50%"><div class="cell-content"><span class="label">N.sg</span><div class="dropzone" data-ans="nadī"></div></div></td><td style="width:50%"><div class="cell-content"><span class="label">V.sg</span><div class="dropzone" data-ans="nádi"></div></div></td></tr>
+                        <tr><td style="width:50%"><div class="cell-content"><span class="label">N.sg</span><div class="dropzone" data-ans="nadī"></div></div></td><td style="width:50%"><div class="cell-content"><span class="label">V.sg</span><div class="dropzone" data-ans="nadi"></div></div></td></tr>
                         <tr><td><div class="cell-content"><span class="label">A.sg</span><div class="dropzone" data-ans="nadīm"></div></div></td><td><div class="cell-content"><span class="label">I.sg</span><div class="dropzone" data-ans="nadyā"></div></div></td></tr>
                         <tr><td><div class="cell-content"><span class="label">D.sg</span><div class="dropzone" data-ans="nadyai"></div></div></td><td><div class="cell-content"><span class="label">Abl.G.sg</span><div class="dropzone" data-ans="nadyās"></div></div></td></tr>
                         <tr><td><div class="cell-content"><span class="label">L.sg</span><div class="dropzone" data-ans="nadyām"></div></div></td><td></td></tr>
@@ -203,7 +202,7 @@
                 <div class="table-container">
                     <table id="tableVadhu">
                         <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ЕДИНСТВЕННОЕ</td></tr>
-                        <tr><td style="width:50%"><div class="cell-content"><span class="label">N.sg</span><div class="dropzone" data-ans="vadhūs"></div></div></td><td style="width:50%"><div class="cell-content"><span class="label">V.sg</span><div class="dropzone" data-ans="vádhu"></div></div></td></tr>
+                        <tr><td style="width:50%"><div class="cell-content"><span class="label">N.sg</span><div class="dropzone" data-ans="vadhūs"></div></div></td><td style="width:50%"><div class="cell-content"><span class="label">V.sg</span><div class="dropzone" data-ans="vadhu"></div></div></td></tr>
                         <tr><td><div class="cell-content"><span class="label">A.sg</span><div class="dropzone" data-ans="vadhūm"></div></div></td><td><div class="cell-content"><span class="label">I.sg</span><div class="dropzone" data-ans="vadhvā"></div></div></td></tr>
                         <tr><td><div class="cell-content"><span class="label">D.sg</span><div class="dropzone" data-ans="vadhvai"></div></div></td><td><div class="cell-content"><span class="label">Abl.G.sg</span><div class="dropzone" data-ans="vadhvās"></div></div></td></tr>
                         <tr><td><div class="cell-content"><span class="label">L.sg</span><div class="dropzone" data-ans="vadhvām"></div></div></td><td></td></tr>
@@ -257,448 +256,11 @@
     </div>
 
     <script>
-        // ССЫЛКИ НА GOOGLE ТАБЛИЦЫ (Vocab_New имеет gid=2016537516)
         const URL_VOCAB = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=2016537516&single=true&output=csv";
         const URL_SANDHI = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=574162119&single=true&output=csv";
         const URL_TEXTS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=1185560149&single=true&output=csv";
 
         const DB = {
-            optLikh: ['likhéyam','likhéva','likhéma','likhés','likhétam','likhéta','likhét','likhétām','likhéyur'],
+            optLikh: ['likheyam','likheva','likhema','likhes','likhetam','likheta','likhet','likhetām','likheyur'],
             optBhas: ['bhāṣeya','bhāṣevahi','bhāṣemahi','bhāṣethās','bhāṣeyāthām','bhāṣedhvam','bhāṣeta','bhāṣeyātām','bhāṣeran'],
-            nadi: ['nadī','nádi','nadīm','nadyā','nadyai','nadyās','nadyām','nadyau','nadyos','nadībhyām','nadyas','nadīs','nadībhis','nadībhyas','nadīnām','nadīṣu'],
-            vadhu: ['vadhūs','vádhu','vadhūm','vadhvā','vadhvai','vadhvās','vadhvām','vadhvau','vadhvos','vadhūbhyām','vadhvās','vadhūs','vadhūbhis','vadhūbhyas','vadhūnām','vadhūṣu'],
-            fem: [
-                { iast: "deva", dev: "देव", ans: "devī", traps: ["devā","devikā","devi"], trans: "бог — богиня" },
-                { iast: "naṭa", dev: "नट", ans: "naṭī", traps: ["naṭā","naṭikā","naṭu"], trans: "актер — актриса" },
-                { iast: "siṃha", dev: "सिंह", ans: "siṃhī", traps: ["siṃhā","siṃhikā","siṃhi"], trans: "лев — львица" },
-                { iast: "haṃsa", dev: "हंस", ans: "haṃsī", traps: ["haṃsā","haṃsikā","haṃsu"], trans: "гусь — гусыня" },
-                { iast: "mayūra", dev: "मयूर", ans: "mayūrī", traps: ["mayūrā","mayūrikā","mayūri"], trans: "павлин — пава" },
-                { iast: "bālaka", dev: "बालक", ans: "bālikā", traps: ["bālakī","bālakā","bālī"], trans: "мальчик — девочка" },
-                { iast: "nāra", dev: "नार", ans: "nārī", traps: ["nārā","nārikā","nāri"], trans: "мужчина — женщина" },
-                { iast: "suta", dev: "सुत", ans: "sutā", traps: ["sutī","sutikā","suti"], trans: "сын — дочь" },
-                { iast: "aśva", dev: "अश्व", ans: "aśvā", traps: ["aśvī","aśvikā","aśvi"], trans: "конь — кобыла" }
-            ],
-            vocab: [], sandhiCa: [], texts: []
-        };
-
-        function parseCSV(str) {
-            let arr = []; let quote = false; let row = 0, col = 0;
-            for (let c = 0; c < str.length; c++) {
-                let cc = str[c], nc = str[c+1];
-                arr[row] = arr[row] || []; arr[row][col] = arr[row][col] || '';
-                if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
-                if (cc == '"') { quote = !quote; continue; }
-                if (cc == ',' && !quote) { ++col; continue; }
-                if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
-                if (cc == '\n' && !quote) { ++row; col = 0; continue; }
-                if (cc == '\r' && !quote) { ++row; col = 0; continue; }
-                arr[row][col] += cc;
-            }
-            return arr;
-        }
-
-        async function fetchGoogleSheets() {
-            try {
-                const [resVocab, resSandhi, resTexts] = await Promise.all([ fetch(URL_VOCAB), fetch(URL_SANDHI), fetch(URL_TEXTS) ]);
-                const csvVocab = await resVocab.text();
-                const csvSandhi = await resSandhi.text();
-                const csvTexts = await resTexts.text();
-
-                // 1. Vocab_New (9 колонок)
-                const rowsVocab = parseCSV(csvVocab).slice(1); 
-                rowsVocab.forEach(r => {
-                    // Формат: 0:Lesson, 1:Type, 2:IAST_Lemma, 3:Dev_Lemma, 4:Translation, 5:IAST_Usage, 6:Dev_Usage, 7:Morphology, 8:Traps
-                    if(r.length >= 8 && r[2]) DB.vocab.push(r);
-                });
-
-                // 2. Sandhi
-                const rowsSandhi = parseCSV(csvSandhi).slice(1);
-                rowsSandhi.forEach(r => {
-                    if(r.length >= 4 && r[0]) {
-                        DB.sandhiCa.push({
-                            ru: r[0], row1: r[1].split(','), row2: r[2].split(','), poolTraps: r[3].split(',')
-                        });
-                    }
-                });
-
-                // 3. Texts
-                const rowsTexts = parseCSV(csvTexts).slice(1);
-                let textMap = {};
-                rowsTexts.forEach(r => {
-                    if(r.length >= 8 && r[0]) {
-                        let sid = r[0];
-                        if(!textMap[sid]) textMap[sid] = { id: sid, title_dev: r[1], title_iast: r[2], parts: [], poolTraps: [], words: [] };
-                        textMap[sid].parts.push(r[4]); 
-                        textMap[sid].poolTraps.push(r[4]); // Для пула
-                        if(r[6]) textMap[sid].poolTraps.push(r[6]);
-                        if(r[7]) textMap[sid].poolTraps.push(r[7]);
-                        
-                        textMap[sid].words.push({ q_dev: r[3], q_iast: r[4], a: r[5], d: [r[6], r[7]] });
-                    }
-                });
-                DB.texts = Object.values(textMap);
-
-                initApp();
-            } catch (error) {
-                console.error(error);
-                document.getElementById('loader').innerHTML = "<div style='color:red;'>Ошибка загрузки из Google Таблиц. Проверьте ссылки.</div>";
-            }
-        }
-
-        // --- Утилиты ---
-        function shuffle(a) { for(let i = a.length-1; i>0; i--){const j = Math.floor(Math.random()*(i+1)); [a[i], a[j]]=[a[j], a[i]];} return a; }
-
-        // Генератор шума для пулов (сандхи, оптатив и тексты)
-        function generateNoise(baseWords, count) {
-            let noise = [];
-            let pool = baseWords.filter(w => w && w.length > 1);
-            while(noise.length < count && pool.length > 0) {
-                let w = pool[Math.floor(Math.random() * pool.length)];
-                if (w.includes('ā')) noise.push(w.replace('ā', 'a'));
-                else if (w.includes('a')) noise.push(w.replace('a', 'ā'));
-                else if (w.includes('é')) noise.push(w.replace('é', 'e'));
-                else if (w.endsWith('s')) noise.push(w.slice(0,-1) + 'r');
-                else if (w.endsWith('m')) noise.push(w.slice(0,-1) + 'n');
-                else noise.push(w + 's');
-            }
-            return noise;
-        }
-
-        function buildPool(poolId, dataArray) {
-            const pool = document.getElementById(poolId);
-            if(!pool) return;
-            pool.innerHTML = '';
-            let uniqueData = [...new Set(dataArray)];
-            shuffle(uniqueData).forEach((text, i) => {
-                const el = document.createElement('div');
-                el.className = 'draggable'; el.draggable = true; 
-                el.id = poolId + '_drag_' + i; el.dataset.pool = poolId;
-                el.textContent = text;
-                pool.appendChild(el);
-            });
-        }
-
-        // --- Drag & Drop ---
-        document.addEventListener('dragstart', (e) => {
-            if (e.target.classList && e.target.classList.contains('draggable') && !e.target.classList.contains('locked')) {
-                e.dataTransfer.setData('text/plain', e.target.id);
-                setTimeout(() => e.target.style.opacity = '0.5', 0);
-            }
-        });
-        document.addEventListener('dragend', (e) => {
-            if (e.target.classList && e.target.classList.contains('draggable')) e.target.style.opacity = '1';
-        });
-        document.addEventListener('dragover', (e) => {
-            if (e.target.classList && e.target.classList.contains('dropzone')) { e.preventDefault(); if(!e.target.classList.contains('locked')) e.target.classList.add('dragover'); }
-            if (e.target.classList && (e.target.classList.contains('pool-grid') || e.target.classList.contains('opt-pool-wrapper') || e.target.classList.contains('sandhi-pool') || e.target.classList.contains('dd-pool'))) e.preventDefault();
-        });
-        document.addEventListener('dragleave', (e) => {
-            if (e.target.classList && e.target.classList.contains('dropzone')) e.target.classList.remove('dragover');
-        });
-        document.addEventListener('drop', (e) => {
-            let target = e.target;
-            // Ищем правильный контейнер для пула, если бросили мимо
-            if(target.classList && (target.classList.contains('pool-container') || target.classList.contains('split-layout'))) target = target.querySelector('.pool-grid') || target;
-
-            if (target.classList && (target.classList.contains('dropzone') || target.classList.contains('pool-grid') || target.classList.contains('opt-pool-wrapper') || target.classList.contains('sandhi-pool') || target.classList.contains('dd-pool'))) {
-                e.preventDefault();
-                target.classList.remove('dragover');
-                if(target.classList.contains('locked')) return;
-                
-                const id = e.dataTransfer.getData('text/plain');
-                const draggedEl = document.getElementById(id);
-                if(!draggedEl) return;
-
-                if (target.classList.contains('dropzone') && target.children.length > 0) {
-                    const existing = target.children[0];
-                    const poolId = draggedEl.dataset.pool;
-                    if(poolId) {
-                        const hp = document.getElementById(poolId);
-                        if(hp) hp.appendChild(existing);
-                    }
-                }
-                target.appendChild(draggedEl);
-                target.classList.remove('error-zone', 'success-zone');
-            }
-        });
-
-        // --- Оптатив Логика ---
-        function switchOptLevel() {
-            const lvl = document.querySelector('input[name="optLvl"]:checked').value;
-            const btn = document.getElementById('btnOptReset');
-            const tblLikh = document.getElementById('tableLikh');
-            const tblBhas = document.getElementById('tableBhas');
-            const poolLikh = document.getElementById('poolOptLikh');
-            const poolBhas = document.getElementById('poolOptBhas');
-
-            // Очищаем дропзоны и пулы
-            [...tblLikh.querySelectorAll('.dropzone'), ...tblBhas.querySelectorAll('.dropzone')].forEach(z => { z.innerHTML = ''; z.classList.remove('success-zone', 'error-zone', 'locked'); });
-            poolLikh.innerHTML = ''; poolBhas.innerHTML = '';
-
-            if (lvl === "1") {
-                btn.style.display = 'inline-block';
-                // Заполняем таблицы правильными ответами
-                tblLikh.querySelectorAll('.dropzone').forEach(z => {
-                    const el = document.createElement('div'); el.className = 'draggable locked'; el.textContent = z.dataset.ans; el.dataset.pool = 'poolOptLikh'; el.id = 'pre_likh_' + Math.random(); z.appendChild(el);
-                });
-                tblBhas.querySelectorAll('.dropzone').forEach(z => {
-                    const el = document.createElement('div'); el.className = 'draggable locked'; el.textContent = z.dataset.ans; el.dataset.pool = 'poolOptBhas'; el.id = 'pre_bhas_' + Math.random(); z.appendChild(el);
-                });
-            } else {
-                btn.style.display = 'none';
-                // Уровень 2: Таблицы пустые. Пулы = Правильные + 10 ловушек
-                let trapsLikh = generateNoise(DB.optLikh, 10);
-                buildPool('poolOptLikh', [...DB.optLikh, ...trapsLikh]);
-                
-                let trapsBhas = generateNoise(DB.optBhas, 10);
-                buildPool('poolOptBhas', [...DB.optBhas, ...trapsBhas]);
-            }
-        }
-
-        window.resetOptativ = function() {
-            const tblLikh = document.getElementById('tableLikh');
-            const tblBhas = document.getElementById('tableBhas');
-            
-            // Вытаскиваем все элементы из таблиц, снимаем блокировку и кидаем в пулы
-            let arrLikh = [];
-            tblLikh.querySelectorAll('.draggable').forEach(d => { d.classList.remove('locked'); arrLikh.push(d.textContent); d.remove(); });
-            if(arrLikh.length > 0) buildPool('poolOptLikh', arrLikh);
-
-            let arrBhas = [];
-            tblBhas.querySelectorAll('.draggable').forEach(d => { d.classList.remove('locked'); arrBhas.push(d.textContent); d.remove(); });
-            if(arrBhas.length > 0) buildPool('poolOptBhas', arrBhas);
-        }
-
-        // --- Словари & Тесты ---
-        window.handleOptClick = function(btn, isCorrect) {
-            if (isCorrect) {
-                btn.classList.add('correct');
-                btn.parentElement.querySelectorAll('.opt-btn').forEach(s => { s.style.pointerEvents = 'none'; if(!s.classList.contains('correct')) s.style.opacity = '0.5'; });
-            } else btn.classList.add('wrong');
-        };
-
-        function renderFemTask() {
-            const container = document.getElementById('fem-container');
-            container.innerHTML = '';
-            let combined = shuffle([...DB.fem]).slice(0, 4);
-            combined.forEach(item => {
-                const card = document.createElement('div'); card.className = 'quiz-card';
-                let options = [{t: item.ans, c: true}];
-                item.traps.forEach(trap => options.push({t: trap, c: false}));
-                let btnsHtml = shuffle(options).map(opt => `<button class="opt-btn" onclick="handleOptClick(this, ${opt.c})">${opt.t}</button>`).join('');
-                card.innerHTML = `<div class="quiz-word sanskrit">${item.dev} <br><span style="font-size:14px; color:#7f8c8d;">(${item.iast})</span></div><div class="quiz-sub">${item.trans}</div><div class="options-2x2">${btnsHtml}</div>`;
-                container.appendChild(card);
-            });
-        }
-
-        let vocabPage = 0;
-        function loadNextVocabPage() {
-            const container = document.getElementById('vocab-container');
-            container.innerHTML = '';
-            const size = 10;
-            // Фильтруем пустые строки и берем срез
-            const validVocab = DB.vocab.filter(v => v[4]); 
-            const slice = validVocab.slice(vocabPage*size, (vocabPage*size)+size);
-            if(slice.length === 0) { vocabPage = 0; loadNextVocabPage(); return; }
-            
-            slice.forEach(item => {
-                const card = document.createElement('div'); card.className = 'quiz-card';
-                // item: 2:IAST_Lemma, 3:Dev_Lemma, 4:Trans, 5:IAST_Usage, 6:Dev_Usage, 7:Morph, 8+:Traps
-                let options = [{t: item[4], c: true}];
-                if(item[8]) item[8].split(',').forEach(trap => { if(trap.trim()) options.push({t: trap.trim(), c: false}); });
-                
-                // Добиваем до 4 вариантов, если ловушек мало
-                while(options.length < 4) {
-                    let random = validVocab[Math.floor(Math.random() * validVocab.length)][4];
-                    if(!options.some(o => o.t === random)) options.push({t: random, c: false});
-                }
-                options = shuffle(options.slice(0,4));
-
-                let btnsHtml = options.map(opt => `<button class="opt-btn" onclick="handleOptClick(this, ${opt.c})">${opt.t}</button>`).join('');
-                let subtitle = item[7] ? `<div class="quiz-sub">${item[5]} (${item[7]})</div>` : '';
-                card.innerHTML = `<div class="quiz-word sanskrit">${item[3]} <br><span style="font-size:14px; color:#7f8c8d;">(${item[2]})</span></div>${subtitle}<div class="options-2x2">${btnsHtml}</div>`;
-                container.appendChild(card);
-            });
-            vocabPage++;
-        }
-
-        let memArray = [], memIndex = 0;
-        function startMemrise() {
-            memArray = shuffle([...DB.vocab.filter(v => v[4])]);
-            memIndex = 0; showMemriseCard();
-        }
-        function showMemriseCard() {
-            if (memIndex >= memArray.length) { document.getElementById('memWord').innerHTML = "Тест пройден!"; document.getElementById('memOptions').innerHTML = ""; return; }
-            const item = memArray[memIndex];
-            document.getElementById('memText').textContent = `${memIndex + 1} / ${memArray.length}`;
-            document.getElementById('memProgress').style.width = `${((memIndex) / memArray.length) * 100}%`;
-            document.getElementById('memWord').innerHTML = `${item[3]} <br><span style="font-size:18px; color:#7f8c8d;">(${item[2]})</span>`;
-            
-            let options = [{t: item[4], c: true}];
-            if(item[8]) item[8].split(',').forEach(trap => { if(trap.trim()) options.push({t: trap.trim(), c: false}); });
-            while(options.length < 4) {
-                let random = DB.vocab[Math.floor(Math.random() * DB.vocab.length)][4];
-                if(random && !options.some(o => o.t === random)) options.push({t: random, c: false});
-            }
-            document.getElementById('memOptions').innerHTML = shuffle(options.slice(0,4)).map(opt => `<button class="opt-btn" onclick="memClick(this, ${opt.c})">${opt.t}</button>`).join('');
-        }
-        window.memClick = function(btn, isCorrect) {
-            if (isCorrect) {
-                btn.classList.add('correct');
-                btn.parentElement.querySelectorAll('.opt-btn').forEach(s => s.style.pointerEvents = 'none');
-                document.getElementById('memProgress').style.width = `${((memIndex + 1) / memArray.length) * 100}%`;
-                memIndex++; setTimeout(showMemriseCard, 700);
-            } else btn.classList.add('wrong');
-        };
-
-        // --- D&D Задачи (CA и Тексты) ---
-        function renderCaDragDrop() {
-            const container = document.getElementById('ca-container');
-            let htmlStr = '';
-            DB.sandhiCa.forEach((task, index) => {
-                let poolId = `pool_ca_${index}`;
-                let row1Html = task.row1.map(ans => `<div class="dropzone" data-ans="${ans}"></div>`).join('');
-                let row2Html = task.row2.map(ans => `<div class="dropzone" data-ans="${ans}"></div>`).join('');
-                
-                htmlStr += `
-                    <div class="stage-box dd-task" id="dd_task_${index}">
-                        <div style="font-size:18px; font-weight:bold; margin-bottom:15px; text-align:center; color: #2980b9;">${task.ru}</div>
-                        <div class="sandhi-pool" id="${poolId}"></div>
-                        <div class="dd-grid">
-                            <div><div class="dd-row-label">1. Исходные формы:</div><div class="dd-zones row1">${row1Html}</div></div>
-                            <div><div class="dd-row-label">2. С учетом сандхи:</div><div class="dd-zones row2">${row2Html}</div></div>
-                        </div>
-                        <div class="error-msg err-ca">Ошибки в расстановке!</div>
-                        <div class="action-btns"><button class="btn-main" onclick="checkCaTask('${index}')">Проверить</button></div>
-                    </div>
-                `;
-            });
-            container.innerHTML = htmlStr;
-            
-            // Собираем пулы: Правильные формы + Ловушки + Шум
-            DB.sandhiCa.forEach((task, index) => {
-                let baseWords = [...task.row1, ...task.row2, ...task.poolTraps];
-                let fullPool = [...baseWords, ...generateNoise(baseWords, 6)]; // Добиваем 6 фейками
-                buildPool(`pool_ca_${index}`, fullPool);
-            });
-        }
-
-        window.checkCaTask = function(idx) {
-            const taskNode = document.getElementById(`dd_task_${idx}`);
-            let win = true;
-            taskNode.querySelectorAll('.dropzone').forEach(z => {
-                const child = z.children[0];
-                if(!child || child.textContent !== z.dataset.ans) { win=false; z.classList.add('error-zone'); z.classList.remove('success-zone');}
-                else { z.classList.add('success-zone'); z.classList.remove('error-zone');}
-            });
-            const err = taskNode.querySelector('.err-ca');
-            if(win) {
-                err.style.display='none';
-                taskNode.querySelectorAll('.draggable').forEach(d => d.classList.add('locked'));
-                taskNode.querySelectorAll('.dropzone').forEach(d => d.classList.add('locked'));
-                taskNode.querySelector('.btn-main').style.display = 'none';
-            } else { err.style.display='block'; setTimeout(() => taskNode.querySelectorAll('.error-zone').forEach(z => z.classList.remove('error-zone')), 2000); }
-        }
-
-        function renderTwoStage() {
-            const container = document.getElementById('two-stage-container');
-            let htmlStr = '';
-            DB.texts.forEach((block, idx) => {
-                let poolId = `pool_txt_${idx}`;
-                let dropHtml = block.parts.map(ans => `<div class="dropzone" data-ans="${ans}"></div>`).join('');
-                let wordsHtml = block.words.map(w => {
-                    let opts = [{t: w.a, c: true}]; 
-                    w.d.forEach(trap => { if(trap) opts.push({t:trap, c:false}); }); 
-                    let btns = shuffle(opts).map(o => `<button class="opt-btn" onclick="handleOptClick(this, ${o.c})">${o.t}</button>`).join('');
-                    return `<div class="quiz-card"><div class="quiz-word sanskrit">${w.q_dev} <br><span style="font-size:14px; color:#7f8c8d;">(${w.q_iast})</span></div><div class="options-2x2">${btns}</div></div>`;
-                }).join('');
-
-                htmlStr += `
-                    <div class="stage-box" id="stage_box_${idx}">
-                        <div class="sentence-header sanskrit">${block.title_dev}</div>
-                        <div class="sentence-sub">(${block.title_iast})</div>
-                        <div class="sandhi-pool" id="${poolId}"></div>
-                        <div class="sandhi-row">${dropHtml}</div>
-                        <div class="error-msg err-txt">Ошибки в снятии сандхи!</div>
-                        <div class="action-btns"><button class="btn-main" onclick="checkSandhiStage('${idx}')">Проверить сандхи</button></div>
-                        <div class="translate-stage vocab-grid" id="trans_stage_${idx}">${wordsHtml}</div>
-                    </div>
-                `;
-            });
-            container.innerHTML = htmlStr;
-            
-            DB.texts.forEach((block, idx) => {
-                let fullPool = [...block.parts, ...block.poolTraps, ...generateNoise(block.parts, 5)];
-                buildPool(`pool_txt_${idx}`, fullPool);
-            });
-        }
-
-        window.checkSandhiStage = function(idx) {
-            const box = document.getElementById(`stage_box_${idx}`);
-            let win = true;
-            box.querySelectorAll('.sandhi-row .dropzone').forEach(z => {
-                const child = z.children[0];
-                if(!child || child.textContent !== z.dataset.ans) { win=false; z.classList.add('error-zone'); z.classList.remove('success-zone');}
-                else { z.classList.add('success-zone'); z.classList.remove('error-zone');}
-            });
-            const err = box.querySelector('.err-txt');
-            if(win) {
-                err.style.display='none';
-                box.querySelectorAll('.draggable').forEach(d => d.classList.add('locked'));
-                box.querySelectorAll('.dropzone').forEach(d => d.classList.add('locked'));
-                box.querySelector('.btn-main').style.display = 'none';
-                document.getElementById(`trans_stage_${idx}`).style.display = 'grid'; 
-            } else { err.style.display='block'; setTimeout(() => box.querySelectorAll('.error-zone').forEach(z => z.classList.remove('error-zone')), 2000); }
-        }
-
-        window.checkGridSpecific = function(containerIds, errId) {
-            let win = true;
-            containerIds.forEach(cid => {
-                document.getElementById(cid).querySelectorAll('.dropzone').forEach(z => {
-                    const child = z.children[0];
-                    if(!child || child.textContent !== z.dataset.ans) { win=false; z.classList.add('error-zone'); z.classList.remove('success-zone');}
-                    else { z.classList.add('success-zone'); z.classList.remove('error-zone');}
-                });
-            });
-            if(win) document.getElementById(errId).style.display = 'none';
-            else { document.getElementById(errId).style.display = 'block'; setTimeout(() => document.querySelectorAll('.error-zone').forEach(z => z.classList.remove('error-zone')), 2000); }
-        }
-
-        window.navTo = function(id) {
-            document.querySelectorAll('.step-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
-            window.scrollTo(0,0);
-        }
-
-        // --- ИНИЦИАЛИЗАЦИЯ ---
-        function initApp() {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('navbar').style.display = 'flex';
-            document.getElementById('main-container').style.display = 'block';
-
-            document.querySelectorAll('.theory-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    if (card.dataset.correct === 'true') card.classList.add('success'); else card.classList.add('error');
-                });
-            });
-
-            // Запускаем Оптатив в режиме обучения
-            switchOptLevel();
-            
-            buildPool('poolNadi', DB.nadi);
-            buildPool('poolVadhu', DB.vadhu);
-            
-            renderFemTask();
-            loadNextVocabPage();
-            startMemrise();
-            renderCaDragDrop();
-            renderTwoStage();
-        }
-
-        document.addEventListener("DOMContentLoaded", fetchGoogleSheets);
-
-    </script>
-</body>
-</html>
+            nadi: ['nadī','nadi','nadīm','nadyā','nadyai','nadyās','nadyām','nadyau','nadyos','nadībhyām','nadyas','nadīs','nadībhis','nadīb
