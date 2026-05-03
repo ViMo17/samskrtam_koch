@@ -42,19 +42,19 @@
         .draggable.locked { background: var(--correct); cursor: default; pointer-events: none; }
         
         table { width: 100%; border-collapse: collapse; font-size: 14px; background: white;}
-        th, td { border: 1px solid var(--border); padding: 8px; text-align: left; }
+        th, td { border: 1px solid var(--border); padding: 8px; text-align: center; }
         th { background-color: #f1f2f6; text-align: center; }
         
-        .cell-content { display: flex; align-items: center; justify-content: flex-start; gap: 10px; }
-        .label { font-weight: bold; color: #7f8c8d; min-width: 80px; text-align: right; padding-right: 10px; }
-        .dropzone { width: 120px; height: 38px; background: #fafafa; border: 2px dashed #bdc3c7; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;}
+        .cell-content { display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .label { font-weight: bold; color: #7f8c8d; min-width: 40px; text-align: center; background:#eaeded; }
+        .dropzone { width: 120px; height: 38px; background: #fafafa; border: 2px dashed #bdc3c7; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; margin: 0 auto;}
         .dropzone.dragover { background: #e0f7fa; border-color: #00bcd4; }
         .dropzone.success-zone { background-color: #e8f8f5; border-color: var(--correct); border-style: solid; }
         .dropzone.error-zone { background-color: #fdedec; border-color: var(--accent); border-style: solid; }
         .dropzone .draggable { margin: 0; box-shadow: none; width: 100%; box-sizing: border-box;}
 
         /* Уровни сложности */
-        .level-switcher { display: flex; justify-content: center; gap: 20px; background: #fdfdfd; border: 1px solid var(--border); border-radius: 6px; padding: 15px; margin-bottom: 25px; }
+        .level-switcher { display: flex; justify-content: center; gap: 20px; background: #fdfdfd; border: 1px solid var(--border); border-radius: 6px; padding: 15px; margin-bottom: 25px; align-items: center;}
         .level-switcher label { font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; color: #2c3e50;}
 
         .opt-pool-wrapper { padding: 15px; border: 1px dashed #aaa; background: #f9f9f9; min-height: 50px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 15px; border-radius: 4px;}
@@ -151,6 +151,7 @@
             <div class="level-switcher">
                 <label><input type="radio" name="optLvl" value="1" checked onchange="switchOptLevel()"> Уровень 1 (Обучение)</label>
                 <label><input type="radio" name="optLvl" value="2" onchange="switchOptLevel()"> Уровень 2 (Сложный)</label>
+                <button class="btn-sec" id="btnOptHint" onclick="fillHintOpt()" style="margin-left: 20px; padding: 6px 15px;">Заполнить подсказку</button>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;" id="optContainer">
@@ -158,9 +159,9 @@
                     <table id="tableLikh">
                         <tr><td colspan="4" style="background:#eaeded; text-align:center; font-weight:bold;">likh (Parasmaipada)</td></tr>
                         <tr><th>Лицо</th><th>Sg.</th><th>Du.</th><th>Pl.</th></tr>
-                        <tr><td>1 л.</td><td><div class="dropzone" data-ans="likheyam"></div></td><td><div class="dropzone" data-ans="likheva"></div></td><td><div class="dropzone" data-ans="likhema"></div></td></tr>
-                        <tr><td>2 л.</td><td><div class="dropzone" data-ans="likhes"></div></td><td><div class="dropzone" data-ans="likhetam"></div></td><td><div class="dropzone" data-ans="likheta"></div></td></tr>
-                        <tr><td>3 л.</td><td><div class="dropzone" data-ans="likhet"></div></td><td><div class="dropzone" data-ans="likhetām"></div></td><td><div class="dropzone" data-ans="likheyur"></div></td></tr>
+                        <tr><td class="label">1 л.</td><td><div class="dropzone" data-ans="likheyam"></div></td><td><div class="dropzone" data-ans="likheva"></div></td><td><div class="dropzone" data-ans="likhema"></div></td></tr>
+                        <tr><td class="label">2 л.</td><td><div class="dropzone" data-ans="likhes"></div></td><td><div class="dropzone" data-ans="likhetam"></div></td><td><div class="dropzone" data-ans="likheta"></div></td></tr>
+                        <tr><td class="label">3 л.</td><td><div class="dropzone" data-ans="likhet"></div></td><td><div class="dropzone" data-ans="likhetām"></div></td><td><div class="dropzone" data-ans="likheyur"></div></td></tr>
                     </table>
                     <div class="opt-pool-wrapper" id="poolOptLikh"></div>
                 </div>
@@ -168,9 +169,9 @@
                     <table id="tableBhas">
                         <tr><td colspan="4" style="background:#eaeded; text-align:center; font-weight:bold;">bhāṣ (Ātmanepada)</td></tr>
                         <tr><th>Лицо</th><th>Sg.</th><th>Du.</th><th>Pl.</th></tr>
-                        <tr><td>1 л.</td><td><div class="dropzone" data-ans="bhāṣeya"></div></td><td><div class="dropzone" data-ans="bhāṣevahi"></div></td><td><div class="dropzone" data-ans="bhāṣemahi"></div></td></tr>
-                        <tr><td>2 л.</td><td><div class="dropzone" data-ans="bhāṣethās"></div></td><td><div class="dropzone" data-ans="bhāṣeyāthām"></div></td><td><div class="dropzone" data-ans="bhāṣedhvam"></div></td></tr>
-                        <tr><td>3 л.</td><td><div class="dropzone" data-ans="bhāṣeta"></div></td><td><div class="dropzone" data-ans="bhāṣeyātām"></div></td><td><div class="dropzone" data-ans="bhāṣeran"></div></td></tr>
+                        <tr><td class="label">1 л.</td><td><div class="dropzone" data-ans="bhāṣeya"></div></td><td><div class="dropzone" data-ans="bhāṣevahi"></div></td><td><div class="dropzone" data-ans="bhāṣemahi"></div></td></tr>
+                        <tr><td class="label">2 л.</td><td><div class="dropzone" data-ans="bhāṣethās"></div></td><td><div class="dropzone" data-ans="bhāṣeyāthām"></div></td><td><div class="dropzone" data-ans="bhāṣedhvam"></div></td></tr>
+                        <tr><td class="label">3 л.</td><td><div class="dropzone" data-ans="bhāṣeta"></div></td><td><div class="dropzone" data-ans="bhāṣeyātām"></div></td><td><div class="dropzone" data-ans="bhāṣeran"></div></td></tr>
                     </table>
                     <div class="opt-pool-wrapper" id="poolOptBhas"></div>
                 </div>
@@ -179,7 +180,6 @@
             <div class="error-msg" id="errOpt">Есть ошибки в спряжении!</div>
             <div class="action-btns">
                 <button class="btn-main" onclick="checkGridSpecific(['tableLikh', 'tableBhas'], 'errOpt')">Проверить матрицы</button>
-                <button class="btn-sec" onclick="showAnsSpecific('optContainer')">Ответ</button>
                 <button class="btn-reset" onclick="resetSpecific('tableLikh', 'poolOptLikh'); resetSpecific('tableBhas', 'poolOptBhas');">Сброс</button>
             </div>
         </div>
@@ -191,18 +191,15 @@
             <div class="split-layout" id="declNadiContainer">
                 <div class="table-container">
                     <table id="tableNadi">
-                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ЕДИНСТВЕННОЕ</td></tr>
-                        <tr><td style="width:50%"><div class="cell-content"><span class="label">N.sg</span><div class="dropzone" data-ans="nadī"></div></div></td><td style="width:50%"><div class="cell-content"><span class="label">V.sg</span><div class="dropzone" data-ans="nadi"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">A.sg</span><div class="dropzone" data-ans="nadīm"></div></div></td><td><div class="cell-content"><span class="label">I.sg</span><div class="dropzone" data-ans="nadyā"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">D.sg</span><div class="dropzone" data-ans="nadyai"></div></div></td><td><div class="cell-content"><span class="label">Abl.G.sg</span><div class="dropzone" data-ans="nadyās"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">L.sg</span><div class="dropzone" data-ans="nadyām"></div></div></td><td></td></tr>
-                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ДВОЙСТВЕННОЕ</td></tr>
-                        <tr><td><div class="cell-content"><span class="label">N.A.V.du</span><div class="dropzone" data-ans="nadyau"></div></div></td><td><div class="cell-content"><span class="label">G.L.du</span><div class="dropzone" data-ans="nadyos"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">I.D.Ab.du</span><div class="dropzone" data-ans="nadībhyām"></div></div></td><td></td></tr>
-                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">МНОЖЕСТВЕННОЕ</td></tr>
-                        <tr><td><div class="cell-content"><span class="label">N.V.pl</span><div class="dropzone" data-ans="nadyas"></div></div></td><td><div class="cell-content"><span class="label">A.pl</span><div class="dropzone" data-ans="nadīs"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">I.pl</span><div class="dropzone" data-ans="nadībhis"></div></div></td><td><div class="cell-content"><span class="label">D.Abl.pl</span><div class="dropzone" data-ans="nadībhyas"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">G.pl</span><div class="dropzone" data-ans="nadīnām"></div></div></td><td><div class="cell-content"><span class="label">L.pl</span><div class="dropzone" data-ans="nadīṣu"></div></div></td></tr>
+                        <tr><th>Падеж</th><th>Sg.</th><th>Du.</th><th>Pl.</th></tr>
+                        <tr><td class="label">N.</td><td><div class="dropzone" data-ans="nadī"></div></td><td><div class="dropzone" data-ans="nadyau"></div></td><td><div class="dropzone" data-ans="nadyas"></div></td></tr>
+                        <tr><td class="label">V.</td><td><div class="dropzone" data-ans="nadi"></div></td><td><div class="dropzone" data-ans="nadyau"></div></td><td><div class="dropzone" data-ans="nadyas"></div></td></tr>
+                        <tr><td class="label">A.</td><td><div class="dropzone" data-ans="nadīm"></div></td><td><div class="dropzone" data-ans="nadyau"></div></td><td><div class="dropzone" data-ans="nadīs"></div></td></tr>
+                        <tr><td class="label">I.</td><td><div class="dropzone" data-ans="nadyā"></div></td><td><div class="dropzone" data-ans="nadībhyām"></div></td><td><div class="dropzone" data-ans="nadībhis"></div></td></tr>
+                        <tr><td class="label">D.</td><td><div class="dropzone" data-ans="nadyai"></div></td><td><div class="dropzone" data-ans="nadībhyām"></div></td><td><div class="dropzone" data-ans="nadībhyas"></div></td></tr>
+                        <tr><td class="label">Abl.</td><td><div class="dropzone" data-ans="nadyās"></div></td><td><div class="dropzone" data-ans="nadībhyām"></div></td><td><div class="dropzone" data-ans="nadībhyas"></div></td></tr>
+                        <tr><td class="label">G.</td><td><div class="dropzone" data-ans="nadyās"></div></td><td><div class="dropzone" data-ans="nadyos"></div></td><td><div class="dropzone" data-ans="nadīnām"></div></td></tr>
+                        <tr><td class="label">L.</td><td><div class="dropzone" data-ans="nadyām"></div></td><td><div class="dropzone" data-ans="nadyos"></div></td><td><div class="dropzone" data-ans="nadīṣu"></div></td></tr>
                     </table>
                 </div>
                 <div class="pool-container"><div class="pool-grid" id="poolNadi"></div></div>
@@ -220,18 +217,15 @@
             <div class="split-layout" id="declVadhuContainer">
                 <div class="table-container">
                     <table id="tableVadhu">
-                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ЕДИНСТВЕННОЕ</td></tr>
-                        <tr><td style="width:50%"><div class="cell-content"><span class="label">N.sg</span><div class="dropzone" data-ans="vadhūs"></div></div></td><td style="width:50%"><div class="cell-content"><span class="label">V.sg</span><div class="dropzone" data-ans="vadhu"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">A.sg</span><div class="dropzone" data-ans="vadhūm"></div></div></td><td><div class="cell-content"><span class="label">I.sg</span><div class="dropzone" data-ans="vadhvā"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">D.sg</span><div class="dropzone" data-ans="vadhvai"></div></div></td><td><div class="cell-content"><span class="label">Abl.G.sg</span><div class="dropzone" data-ans="vadhvās"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">L.sg</span><div class="dropzone" data-ans="vadhvām"></div></div></td><td></td></tr>
-                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ДВОЙСТВЕННОЕ</td></tr>
-                        <tr><td><div class="cell-content"><span class="label">N.A.V.du</span><div class="dropzone" data-ans="vadhvau"></div></div></td><td><div class="cell-content"><span class="label">G.L.du</span><div class="dropzone" data-ans="vadhvos"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">I.D.Ab.du</span><div class="dropzone" data-ans="vadhūbhyām"></div></div></td><td></td></tr>
-                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">МНОЖЕСТВЕННОЕ</td></tr>
-                        <tr><td><div class="cell-content"><span class="label">N.V.pl</span><div class="dropzone" data-ans="vadhvās"></div></div></td><td><div class="cell-content"><span class="label">A.pl</span><div class="dropzone" data-ans="vadhūs"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">I.pl</span><div class="dropzone" data-ans="vadhūbhis"></div></div></td><td><div class="cell-content"><span class="label">D.Abl.pl</span><div class="dropzone" data-ans="vadhūbhyas"></div></div></td></tr>
-                        <tr><td><div class="cell-content"><span class="label">G.pl</span><div class="dropzone" data-ans="vadhūnām"></div></div></td><td><div class="cell-content"><span class="label">L.pl</span><div class="dropzone" data-ans="vadhūṣu"></div></div></td></tr>
+                        <tr><th>Падеж</th><th>Sg.</th><th>Du.</th><th>Pl.</th></tr>
+                        <tr><td class="label">N.</td><td><div class="dropzone" data-ans="vadhūs"></div></td><td><div class="dropzone" data-ans="vadhvau"></div></td><td><div class="dropzone" data-ans="vadhvās"></div></td></tr>
+                        <tr><td class="label">V.</td><td><div class="dropzone" data-ans="vadhu"></div></td><td><div class="dropzone" data-ans="vadhvau"></div></td><td><div class="dropzone" data-ans="vadhvās"></div></td></tr>
+                        <tr><td class="label">A.</td><td><div class="dropzone" data-ans="vadhūm"></div></td><td><div class="dropzone" data-ans="vadhvau"></div></td><td><div class="dropzone" data-ans="vadhūs"></div></td></tr>
+                        <tr><td class="label">I.</td><td><div class="dropzone" data-ans="vadhvā"></div></td><td><div class="dropzone" data-ans="vadhūbhyām"></div></td><td><div class="dropzone" data-ans="vadhūbhis"></div></td></tr>
+                        <tr><td class="label">D.</td><td><div class="dropzone" data-ans="vadhvai"></div></td><td><div class="dropzone" data-ans="vadhūbhyām"></div></td><td><div class="dropzone" data-ans="vadhūbhyas"></div></td></tr>
+                        <tr><td class="label">Abl.</td><td><div class="dropzone" data-ans="vadhvās"></div></td><td><div class="dropzone" data-ans="vadhūbhyām"></div></td><td><div class="dropzone" data-ans="vadhūbhyas"></div></td></tr>
+                        <tr><td class="label">G.</td><td><div class="dropzone" data-ans="vadhvās"></div></td><td><div class="dropzone" data-ans="vadhvos"></div></td><td><div class="dropzone" data-ans="vadhūnām"></div></td></tr>
+                        <tr><td class="label">L.</td><td><div class="dropzone" data-ans="vadhvām"></div></td><td><div class="dropzone" data-ans="vadhvos"></div></td><td><div class="dropzone" data-ans="vadhūṣu"></div></td></tr>
                     </table>
                 </div>
                 <div class="pool-container"><div class="pool-grid" id="poolVadhu"></div></div>
@@ -349,8 +343,8 @@
                 rowsSandhi.forEach(r => {
                     if(r.length >= 4 && r[0]) {
                         let devStr = '';
-                        for(let i=0; i<r.length; i++) {
-                            if(/[\u0900-\u097F]/.test(r[i])) { devStr = r[i]; break; }
+                        for(let i=r.length-1; i>=0; i--) {
+                            if(/[\u0904-\u0939]/.test(r[i])) { devStr = r[i]; break; }
                         }
                         DB.sandhiCa.push({
                             ru: r[0], 
@@ -512,28 +506,32 @@
             if(trans) trans.style.display = 'none';
         };
 
+        window.fillHintOpt = function() {
+            const lvl = document.querySelector('input[name="optLvl"]:checked').value;
+            if (lvl === "1") showAnsSpecific('optContainer');
+        };
+
         function switchOptLevel() {
             const lvl = document.querySelector('input[name="optLvl"]:checked').value;
             const tblLikh = document.getElementById('tableLikh');
             const tblBhas = document.getElementById('tableBhas');
             const poolLikh = document.getElementById('poolOptLikh');
             const poolBhas = document.getElementById('poolOptBhas');
+            const btnHint = document.getElementById('btnOptHint');
 
             [...tblLikh.querySelectorAll('.dropzone'), ...tblBhas.querySelectorAll('.dropzone')].forEach(z => { z.innerHTML = ''; z.classList.remove('success-zone', 'error-zone', 'locked'); });
             poolLikh.innerHTML = ''; poolBhas.innerHTML = '';
 
             if (lvl === "1") {
-                tblLikh.querySelectorAll('.dropzone').forEach(z => {
-                    const el = document.createElement('div'); el.className = 'draggable locked'; el.textContent = z.dataset.ans; el.dataset.val = z.dataset.ans; el.dataset.pool = 'poolOptLikh'; el.id = 'pre_likh_' + Math.random(); z.appendChild(el);
-                });
-                tblBhas.querySelectorAll('.dropzone').forEach(z => {
-                    const el = document.createElement('div'); el.className = 'draggable locked'; el.textContent = z.dataset.ans; el.dataset.val = z.dataset.ans; el.dataset.pool = 'poolOptBhas'; el.id = 'pre_bhas_' + Math.random(); z.appendChild(el);
-                });
+                buildPool('poolOptLikh', DB.optLikh);
+                buildPool('poolOptBhas', DB.optBhas);
+                btnHint.style.display = 'inline-block';
             } else {
                 let trapsLikh = generateNoise(DB.optLikh, 10);
                 buildPool('poolOptLikh', [...DB.optLikh, ...trapsLikh]);
                 let trapsBhas = generateNoise(DB.optBhas, 10);
                 buildPool('poolOptBhas', [...DB.optBhas, ...trapsBhas]);
+                btnHint.style.display = 'none';
             }
         }
 
@@ -567,13 +565,18 @@
 
         function loadNextVocabPage() {
             const container = document.getElementById('vocab-container');
-            if(vocabPage === 0) container.innerHTML = '';
             const size = 10;
             const lesson = document.getElementById('vocabLessonSelect').value;
             const validVocab = DB.vocab.filter(v => v[4] && v[0] === lesson); 
-            const slice = validVocab.slice(vocabPage*size, (vocabPage*size)+size);
-            if(slice.length === 0 && vocabPage > 0) return; 
             
+            let slice = validVocab.slice(vocabPage*size, (vocabPage*size)+size);
+            if(slice.length === 0) {
+                vocabPage = 0; 
+                slice = validVocab.slice(0, size);
+                if(slice.length === 0) return; 
+            }
+            
+            container.innerHTML = ''; 
             let allVocab = DB.vocab.filter(v => v[4]);
 
             slice.forEach(item => {
@@ -601,10 +604,31 @@
         }
 
         let memArray = [], memIndex = 0;
+        
+        function getSmartTraps(item, allVocab) {
+            let traps = [];
+            if(item[8]) item[8].split(',').forEach(t => { if(t.trim()) traps.push(t.trim()); });
+            
+            let isVerb = /^(он|она|оно|они|мы|вы|я|ты)\b/i.test(item[4]);
+            let filterVocab = allVocab;
+            if(isVerb) {
+                filterVocab = allVocab.filter(v => /^(он|она|оно|они|мы|вы|я|ты)\b/i.test(v[4]) && v[4] !== item[4]);
+            } else {
+                filterVocab = allVocab.filter(v => !/^(он|она|оно|они|мы|вы|я|ты)\b/i.test(v[4]) && v[4] !== item[4]);
+            }
+            
+            while(traps.length < 3 && filterVocab.length > 0) {
+                let random = filterVocab[Math.floor(Math.random() * filterVocab.length)][4];
+                if(!traps.includes(random)) traps.push(random);
+            }
+            return traps;
+        }
+
         function startMemrise() {
             memArray = shuffle([...DB.vocab.filter(v => v[4])]).slice(0, 100);
             memIndex = 0; showMemriseCard();
         }
+        
         function showMemriseCard() {
             if (memIndex >= memArray.length) { document.getElementById('memWord').innerHTML = "Тест пройден!"; document.getElementById('memOptions').innerHTML = ""; return; }
             const item = memArray[memIndex];
@@ -619,14 +643,12 @@
                 let otherTerms = DB.vocab.filter(v => v[0] == "0" && v[4] !== item[4]);
                 shuffle(otherTerms).slice(0,3).forEach(v => options.push({t: v[4], c: false}));
             } else {
-                if(item[8]) item[8].split(',').forEach(trap => { if(trap.trim()) options.push({t: trap.trim(), c: false}); });
-                while(options.length < 4 && allVocab.length > 3) {
-                    let random = allVocab[Math.floor(Math.random() * allVocab.length)][4];
-                    if(random && !options.some(o => o.t === random)) options.push({t: random, c: false});
-                }
+                let smartTraps = getSmartTraps(item, allVocab);
+                smartTraps.slice(0,3).forEach(t => options.push({t: t, c: false}));
             }
             document.getElementById('memOptions').innerHTML = shuffle(options.slice(0,4)).map(opt => `<button class="opt-btn" onclick="memClick(this, ${opt.c})">${opt.t}</button>`).join('');
         }
+        
         window.memClick = function(btn, isCorrect) {
             if (isCorrect) {
                 btn.classList.add('correct');
@@ -691,6 +713,27 @@
             } else { err.style.display='block'; setTimeout(() => taskNode.querySelectorAll('.error-zone').forEach(z => z.classList.remove('error-zone')), 2000); }
         }
 
+        function mutateRussian(word) {
+            let w = word.trim();
+            let lower = w.toLowerCase();
+            if(lower.endsWith('ами')) return w.replace(/ами$/i, 'ах');
+            if(lower.endsWith('ах')) return w.replace(/ах$/i, 'ам');
+            if(lower.endsWith('ам')) return w.replace(/ам$/i, 'ами');
+            if(lower.endsWith('ой')) return w.replace(/ой$/i, 'е');
+            if(lower.endsWith('е')) return w.replace(/е$/i, 'у');
+            if(lower.endsWith('у')) return w.replace(/у$/i, 'ом');
+            if(lower.endsWith('ом')) return w.replace(/ом$/i, 'е');
+            if(lower.match(/л$/)) return w + 'и'; 
+            if(lower.match(/ли$/)) return w.replace(/ли$/i, 'л');
+            if(lower.endsWith('м')) return w.replace(/м$/i, 'те');
+            if(lower.endsWith('те')) return w.replace(/те$/i, 'м');
+            if(lower.endsWith('ет')) return w.replace(/ет$/i, 'ут');
+            if(lower.endsWith('ут')) return w.replace(/ут$/i, 'ет');
+            if(lower.endsWith('а')) return w.replace(/а$/i, 'ы');
+            if(lower.endsWith('ы')) return w.replace(/ы$/i, 'у');
+            return w + " (иная форма)";
+        }
+
         function renderTwoStageTexts(dataArray, containerIdPrefix) {
             const container = document.getElementById(`${containerIdPrefix}-container`);
             if(!container) return;
@@ -704,27 +747,26 @@
                     let opts = [{t: w.a, c: true}]; 
                     w.d.forEach(trap => { if(trap) opts.push({t:trap, c:false}); }); 
                     
-                    let allVocab = DB.vocab.filter(v => v[4]);
-                    while(opts.length < 4 && allVocab.length > 3) {
-                        let random = allVocab[Math.floor(Math.random() * allVocab.length)][4];
-                        if(!opts.some(o => o.t === random)) opts.push({t: random, c: false});
+                    while(opts.length < 4) {
+                        let lastAdded = opts[opts.length-1].t;
+                        let mutated = mutateRussian(lastAdded);
+                        if(opts.some(o => o.t === mutated)) mutated = mutateRussian(mutated + " ");
+                        opts.push({t: mutated, c: false});
                     }
 
                     let btns = shuffle(opts).map(o => `<button class="opt-btn" onclick="handleOptClick(this, ${o.c})">${o.t}</button>`).join('');
                     return `<div class="quiz-card"><div class="quiz-word sanskrit">${w.q_dev} <br><span style="font-size:14px; color:#7f8c8d;">(${w.q_iast})</span></div><div class="options-2x2">${btns}</div></div>`;
                 }).join('');
 
-                let primaryIsDev = /[\u0900-\u097F]/.test(block.title_dev);
-                let primary = block.title_dev;
-                let secondary = block.title_iast;
-                
-                let headerClass = primaryIsDev ? 'sentence-header sanskrit' : 'sentence-header';
-                let subClass = primaryIsDev ? 'sentence-sub' : 'sentence-sub sanskrit';
+                let mainTitle = block.title_dev;
+                let subTitle = block.title_iast;
+                let headerClass = /[\u0900-\u097F]/.test(mainTitle) ? 'sentence-header sanskrit' : 'sentence-header';
+                let subClass = /[\u0900-\u097F]/.test(subTitle) ? 'sentence-sub sanskrit' : 'sentence-sub';
 
                 htmlStr += `
                     <div class="stage-box" id="${cId}">
-                        <div class="${headerClass}">${primary}</div>
-                        <div class="${subClass}">(${secondary})</div>
+                        <div class="${headerClass}">${mainTitle}</div>
+                        <div class="${subClass}">(${subTitle})</div>
                         <div class="sandhi-pool" id="${poolId}"></div>
                         <div class="sandhi-row">${dropHtml}</div>
                         <div class="error-msg err-txt">Ошибки в снятии сандхи!</div>
