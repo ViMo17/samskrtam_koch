@@ -43,11 +43,13 @@
         
         table { width: 100%; border-collapse: collapse; font-size: 14px; background: white;}
         th, td { border: 1px solid var(--border); padding: 8px; text-align: center; }
-        th { background-color: #f1f2f6; text-align: center; }
+        th { background-color: #f1f2f6; }
         
-        .cell-content { display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .label { font-weight: bold; color: #7f8c8d; min-width: 40px; text-align: center; background:#eaeded; }
-        .dropzone { width: 120px; height: 38px; background: #fafafa; border: 2px dashed #bdc3c7; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; margin: 0 auto;}
+        .label { font-weight: bold; color: #7f8c8d; min-width: 40px; background:#eaeded; }
+        .dropzone { width: 120px; height: 38px; background: #fafafa; border: 2px dashed #bdc3c7; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+        /* Центрируем дропзоны только в таблицах спряжений/склонений */
+        table .dropzone { margin: 0 auto; }
+        
         .dropzone.dragover { background: #e0f7fa; border-color: #00bcd4; }
         .dropzone.success-zone { background-color: #e8f8f5; border-color: var(--correct); border-style: solid; }
         .dropzone.error-zone { background-color: #fdedec; border-color: var(--accent); border-style: solid; }
@@ -84,11 +86,9 @@
         .stage-box { background: #f4f6f7; border: 1px solid #ccc; padding: 20px; border-radius: 6px; margin-bottom: 30px; }
         .sentence-header { font-size: 22px; font-weight: bold; text-align: center; color: #2c3e50; }
         .sentence-sub { font-size: 16px; font-weight: normal; color: #7f8c8d; text-align: center; margin-bottom: 20px; border-bottom: 2px solid #3498db; padding-bottom: 15px;}
-        .sandhi-row { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;}
-        .sandhi-row .dropzone { min-width: 120px; height: 40px; }
         
-        .sandhi-row-merged { display: flex; gap: 0; justify-content: center; margin-bottom: 20px; flex-wrap: nowrap; }
-        .sandhi-row-merged .dropzone { border-radius: 0; border-right: none; }
+        .sandhi-row-merged { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+        .sandhi-row-merged .dropzone { margin: 0; border-radius: 0; border-right: none; }
         .sandhi-row-merged .dropzone:first-child { border-radius: 4px 0 0 4px; }
         .sandhi-row-merged .dropzone:last-child { border-radius: 0 4px 4px 0; border-right: 2px dashed #bdc3c7; }
         .sandhi-row-merged .dropzone.success-zone:last-child { border-right: 2px solid var(--correct); }
@@ -99,8 +99,8 @@
         .dd-task { background: #fff; border: 1px solid #ccc; padding: 20px; border-radius: 6px; margin-bottom: 20px; }
         .dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px; }
         .dd-row-label { font-size: 14px; color: #555; margin-bottom: 10px; font-weight: bold; text-align: center;}
-        .dd-zones { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;}
-        .dev-ans { font-family: "Sanskrit Text", "Mangal", serif; font-size: 24px; color: var(--correct); text-align: center; margin-top: 15px; display: none; font-weight: bold; }
+        .dd-zones { display: flex; gap: 0; justify-content: center; flex-wrap: wrap;}
+        .dev-ans { font-family: "Sanskrit Text", "Mangal", serif; font-size: 28px; color: var(--correct); text-align: center; margin-top: 15px; display: none; font-weight: bold; }
         
         .action-btns { display: flex; gap: 15px; justify-content: center; margin-top: 25px;}
         .btn-main { padding: 10px 20px; background-color: var(--correct); color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.2s; }
@@ -192,14 +192,14 @@
                 <div class="table-container">
                     <table id="tableNadi">
                         <tr><th>Падеж</th><th>Sg.</th><th>Du.</th><th>Pl.</th></tr>
-                        <tr><td class="label">N.</td><td><div class="dropzone" data-ans="nadī"></div></td><td><div class="dropzone" data-ans="nadyau"></div></td><td><div class="dropzone" data-ans="nadyas"></div></td></tr>
-                        <tr><td class="label">V.</td><td><div class="dropzone" data-ans="nadi"></div></td><td><div class="dropzone" data-ans="nadyau"></div></td><td><div class="dropzone" data-ans="nadyas"></div></td></tr>
-                        <tr><td class="label">A.</td><td><div class="dropzone" data-ans="nadīm"></div></td><td><div class="dropzone" data-ans="nadyau"></div></td><td><div class="dropzone" data-ans="nadīs"></div></td></tr>
-                        <tr><td class="label">I.</td><td><div class="dropzone" data-ans="nadyā"></div></td><td><div class="dropzone" data-ans="nadībhyām"></div></td><td><div class="dropzone" data-ans="nadībhis"></div></td></tr>
-                        <tr><td class="label">D.</td><td><div class="dropzone" data-ans="nadyai"></div></td><td><div class="dropzone" data-ans="nadībhyām"></div></td><td><div class="dropzone" data-ans="nadībhyas"></div></td></tr>
-                        <tr><td class="label">Abl.</td><td><div class="dropzone" data-ans="nadyās"></div></td><td><div class="dropzone" data-ans="nadībhyām"></div></td><td><div class="dropzone" data-ans="nadībhyas"></div></td></tr>
-                        <tr><td class="label">G.</td><td><div class="dropzone" data-ans="nadyās"></div></td><td><div class="dropzone" data-ans="nadyos"></div></td><td><div class="dropzone" data-ans="nadīnām"></div></td></tr>
-                        <tr><td class="label">L.</td><td><div class="dropzone" data-ans="nadyām"></div></td><td><div class="dropzone" data-ans="nadyos"></div></td><td><div class="dropzone" data-ans="nadīṣu"></div></td></tr>
+                        <tr><td class="label">N.</td><td><div class="dropzone" data-ans="nadi"></div></td><td rowspan="3"><div class="dropzone" data-ans="nadyau"></div></td><td rowspan="2"><div class="dropzone" data-ans="nadyas"></div></td></tr>
+                        <tr><td class="label">V.</td><td><div class="dropzone" data-ans="nadi"></div></td></tr>
+                        <tr><td class="label">A.</td><td><div class="dropzone" data-ans="nadim"></div></td><td><div class="dropzone" data-ans="nadis"></div></td></tr>
+                        <tr><td class="label">I.</td><td><div class="dropzone" data-ans="nadya"></div></td><td rowspan="3"><div class="dropzone" data-ans="nadibhyam"></div></td><td><div class="dropzone" data-ans="nadibhis"></div></td></tr>
+                        <tr><td class="label">D.</td><td><div class="dropzone" data-ans="nadyai"></div></td><td rowspan="2"><div class="dropzone" data-ans="nadibhyas"></div></td></tr>
+                        <tr><td class="label">Abl.</td><td rowspan="2"><div class="dropzone" data-ans="nadyas"></div></td></tr>
+                        <tr><td class="label">G.</td><td rowspan="2"><div class="dropzone" data-ans="nadyos"></div></td><td><div class="dropzone" data-ans="nadinam"></div></td></tr>
+                        <tr><td class="label">L.</td><td><div class="dropzone" data-ans="nadyam"></div></td><td><div class="dropzone" data-ans="nadiṣu"></div></td></tr>
                     </table>
                 </div>
                 <div class="pool-container"><div class="pool-grid" id="poolNadi"></div></div>
@@ -218,14 +218,14 @@
                 <div class="table-container">
                     <table id="tableVadhu">
                         <tr><th>Падеж</th><th>Sg.</th><th>Du.</th><th>Pl.</th></tr>
-                        <tr><td class="label">N.</td><td><div class="dropzone" data-ans="vadhūs"></div></td><td><div class="dropzone" data-ans="vadhvau"></div></td><td><div class="dropzone" data-ans="vadhvās"></div></td></tr>
-                        <tr><td class="label">V.</td><td><div class="dropzone" data-ans="vadhu"></div></td><td><div class="dropzone" data-ans="vadhvau"></div></td><td><div class="dropzone" data-ans="vadhvās"></div></td></tr>
-                        <tr><td class="label">A.</td><td><div class="dropzone" data-ans="vadhūm"></div></td><td><div class="dropzone" data-ans="vadhvau"></div></td><td><div class="dropzone" data-ans="vadhūs"></div></td></tr>
-                        <tr><td class="label">I.</td><td><div class="dropzone" data-ans="vadhvā"></div></td><td><div class="dropzone" data-ans="vadhūbhyām"></div></td><td><div class="dropzone" data-ans="vadhūbhis"></div></td></tr>
-                        <tr><td class="label">D.</td><td><div class="dropzone" data-ans="vadhvai"></div></td><td><div class="dropzone" data-ans="vadhūbhyām"></div></td><td><div class="dropzone" data-ans="vadhūbhyas"></div></td></tr>
-                        <tr><td class="label">Abl.</td><td><div class="dropzone" data-ans="vadhvās"></div></td><td><div class="dropzone" data-ans="vadhūbhyām"></div></td><td><div class="dropzone" data-ans="vadhūbhyas"></div></td></tr>
-                        <tr><td class="label">G.</td><td><div class="dropzone" data-ans="vadhvās"></div></td><td><div class="dropzone" data-ans="vadhvos"></div></td><td><div class="dropzone" data-ans="vadhūnām"></div></td></tr>
-                        <tr><td class="label">L.</td><td><div class="dropzone" data-ans="vadhvām"></div></td><td><div class="dropzone" data-ans="vadhvos"></div></td><td><div class="dropzone" data-ans="vadhūṣu"></div></td></tr>
+                        <tr><td class="label">N.</td><td><div class="dropzone" data-ans="vadhus"></div></td><td rowspan="3"><div class="dropzone" data-ans="vadhvau"></div></td><td rowspan="2"><div class="dropzone" data-ans="vadhvas"></div></td></tr>
+                        <tr><td class="label">V.</td><td><div class="dropzone" data-ans="vadhu"></div></td></tr>
+                        <tr><td class="label">A.</td><td><div class="dropzone" data-ans="vadhum"></div></td><td><div class="dropzone" data-ans="vadhus"></div></td></tr>
+                        <tr><td class="label">I.</td><td><div class="dropzone" data-ans="vadhva"></div></td><td rowspan="3"><div class="dropzone" data-ans="vadhubhyam"></div></td><td><div class="dropzone" data-ans="vadhubhis"></div></td></tr>
+                        <tr><td class="label">D.</td><td><div class="dropzone" data-ans="vadhvai"></div></td><td rowspan="2"><div class="dropzone" data-ans="vadhubhyas"></div></td></tr>
+                        <tr><td class="label">Abl.</td><td rowspan="2"><div class="dropzone" data-ans="vadhvas"></div></td></tr>
+                        <tr><td class="label">G.</td><td rowspan="2"><div class="dropzone" data-ans="vadhvos"></div></td><td><div class="dropzone" data-ans="vadhunam"></div></td></tr>
+                        <tr><td class="label">L.</td><td><div class="dropzone" data-ans="vadhvam"></div></td><td><div class="dropzone" data-ans="vadhuṣu"></div></td></tr>
                     </table>
                 </div>
                 <div class="pool-container"><div class="pool-grid" id="poolVadhu"></div></div>
@@ -289,8 +289,8 @@
         const DB = {
             optLikh: ['likheyam','likheva','likhema','likhes','likhetam','likheta','likhet','likhetām','likheyur'],
             optBhas: ['bhāṣeya','bhāṣevahi','bhāṣemahi','bhāṣethās','bhāṣeyāthām','bhāṣedhvam','bhāṣeta','bhāṣeyātām','bhāṣeran'],
-            nadi: ['nadī','nadi','nadīm','nadyā','nadyai','nadyās','nadyām','nadyau','nadyos','nadībhyām','nadyas','nadīs','nadībhis','nadībhyas','nadīnām','nadīṣu'],
-            vadhu: ['vadhūs','vadhu','vadhūm','vadhvā','vadhvai','vadhvās','vadhvām','vadhvau','vadhvos','vadhūbhyām','vadhvās','vadhūs','vadhūbhis','vadhūbhyas','vadhūnām','vadhūṣu'],
+            nadi: ['nadi','nadi','nadim','nadya','nadyai','nadyas','nadyam','nadyau','nadyos','nadibhyam','nadyas','nadis','nadibhis','nadibhyas','nadinam','nadiṣu'],
+            vadhu: ['vadhus','vadhu','vadhum','vadhva','vadhvai','vadhvas','vadhvam','vadhvau','vadhvos','vadhubhyam','vadhvas','vadhus','vadhubhis','vadhubhyas','vadhunam','vadhuṣu'],
             fem: [
                 { iast: "deva", dev: "देव", ans: "devī", traps: ["devā","devikā","devi"], trans: "бог — богиня" },
                 { iast: "naṭa", dev: "नट", ans: "naṭī", traps: ["naṭā","naṭikā","naṭi"], trans: "актер — актриса" },
@@ -343,15 +343,15 @@
                 rowsSandhi.forEach(r => {
                     if(r.length >= 4 && r[0]) {
                         let devStr = '';
-                        for(let i=r.length-1; i>=0; i--) {
-                            if(/[\u0904-\u0939]/.test(r[i])) { devStr = r[i]; break; }
+                        for(let i=0; i<r.length; i++) {
+                            if(/[\u0900-\u097F]/.test(r[i])) { devStr = r[i]; break; }
                         }
                         DB.sandhiCa.push({
                             ru: r[0], 
                             row1: r[1].split(',').map(stripAccents), 
                             row2: r[2].split(',').map(stripAccents), 
                             poolTraps: r[3] ? r[3].split(',').map(stripAccents) : [],
-                            dev: devStr
+                            dev: devStr.trim()
                         });
                     }
                 });
@@ -368,7 +368,8 @@
                 });
                 
                 Object.values(textMap).forEach(block => {
-                    if (block.id.toString().includes('5') || block.title_dev.includes('5')) {
+                    let idStr = block.id.toString().trim();
+                    if (idStr.startsWith('5')) {
                         DB.textsEx5.push(block);
                     } else {
                         DB.textsEx4.push(block);
@@ -560,7 +561,8 @@
         function populateVocabLessons() {
             const select = document.getElementById('vocabLessonSelect');
             const lessons = [...new Set(DB.vocab.filter(v => v[4]).map(v => v[0]))].sort((a,b)=>a-b);
-            select.innerHTML = lessons.map(l => `<option value="${l}">Урок ${l}</option>`).join('');
+            let optionsHtml = lessons.map(l => `<option value="${l}" ${l=="1"?'selected':''}>Урок ${l}</option>`).join('');
+            select.innerHTML = optionsHtml;
         }
 
         function loadNextVocabPage() {
@@ -569,11 +571,15 @@
             const lesson = document.getElementById('vocabLessonSelect').value;
             const validVocab = DB.vocab.filter(v => v[4] && v[0] === lesson); 
             
+            if (validVocab.length === 0) {
+                container.innerHTML = '<div style="grid-column: span 2; text-align: center;">Нет слов для этого урока</div>';
+                return;
+            }
+
             let slice = validVocab.slice(vocabPage*size, (vocabPage*size)+size);
             if(slice.length === 0) {
                 vocabPage = 0; 
                 slice = validVocab.slice(0, size);
-                if(slice.length === 0) return; 
             }
             
             container.innerHTML = ''; 
@@ -609,12 +615,12 @@
             let traps = [];
             if(item[8]) item[8].split(',').forEach(t => { if(t.trim()) traps.push(t.trim()); });
             
-            let isVerb = /^(он|она|оно|они|мы|вы|я|ты)\b/i.test(item[4]);
+            let isVerb = /^(он|она|оно|они|мы|вы|я|ты)\b/i.test(item[4]) || /ть$/.test(item[4]);
             let filterVocab = allVocab;
             if(isVerb) {
-                filterVocab = allVocab.filter(v => /^(он|она|оно|они|мы|вы|я|ты)\b/i.test(v[4]) && v[4] !== item[4]);
+                filterVocab = allVocab.filter(v => (/^(он|она|оно|они|мы|вы|я|ты)\b/i.test(v[4]) || /ть$/.test(v[4])) && v[4] !== item[4]);
             } else {
-                filterVocab = allVocab.filter(v => !/^(он|она|оно|они|мы|вы|я|ты)\b/i.test(v[4]) && v[4] !== item[4]);
+                filterVocab = allVocab.filter(v => !(/^(он|она|оно|они|мы|вы|я|ты)\b/i.test(v[4]) || /ть$/.test(v[4])) && v[4] !== item[4]);
             }
             
             while(traps.length < 3 && filterVocab.length > 0) {
@@ -731,7 +737,7 @@
             if(lower.endsWith('ут')) return w.replace(/ут$/i, 'ет');
             if(lower.endsWith('а')) return w.replace(/а$/i, 'ы');
             if(lower.endsWith('ы')) return w.replace(/ы$/i, 'у');
-            return w + " (иная форма)";
+            return w + " (ин. форма)";
         }
 
         function renderTwoStageTexts(dataArray, containerIdPrefix) {
@@ -760,15 +766,16 @@
 
                 let mainTitle = block.title_dev;
                 let subTitle = block.title_iast;
-                let headerClass = /[\u0900-\u097F]/.test(mainTitle) ? 'sentence-header sanskrit' : 'sentence-header';
-                let subClass = /[\u0900-\u097F]/.test(subTitle) ? 'sentence-sub sanskrit' : 'sentence-sub';
+                
+                let hTitleHtml = /[\u0900-\u097F]/.test(mainTitle) ? `<span class="sanskrit">${mainTitle}</span>` : mainTitle;
+                let sTitleHtml = /[\u0900-\u097F]/.test(subTitle) ? `<span class="sanskrit">${subTitle}</span>` : subTitle;
 
                 htmlStr += `
                     <div class="stage-box" id="${cId}">
-                        <div class="${headerClass}">${mainTitle}</div>
-                        <div class="${subClass}">(${subTitle})</div>
+                        <div class="sentence-header">${hTitleHtml}</div>
+                        <div class="sentence-sub">(${sTitleHtml})</div>
                         <div class="sandhi-pool" id="${poolId}"></div>
-                        <div class="sandhi-row">${dropHtml}</div>
+                        <div class="sandhi-row-merged sandhi-row">${dropHtml}</div>
                         <div class="error-msg err-txt">Ошибки в снятии сандхи!</div>
                         <div class="action-btns">
                             <button class="btn-main" onclick="checkSandhiStage('${cId}', '${containerIdPrefix}_trans_${idx}')">Проверить сандхи</button>
