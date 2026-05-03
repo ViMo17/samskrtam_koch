@@ -3,190 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Санскрит: Учебный комплекс (Кочергина)</title>
+    <title>Санскрит: Учебный комплекс</title>
     <style>
         :root { --primary: #2c3e50; --accent: #e74c3c; --bg: #ecf0f1; --correct: #27ae60; --border: #bdc3c7; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--primary); margin: 0; padding: 0; font-size: 15px; padding-bottom: 50px; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--primary); margin: 0; padding-bottom: 50px; }
         .sanskrit { font-family: "Sanskrit Text", "Mangal", "Arial Unicode MS", sans-serif; font-weight: bold; color: #2980b9; font-size: 1.2em;}
-        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #2c3e50; }
+        
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .spinner { border: 6px solid #f3f3f3; border-top: 6px solid #3498db; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 20px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        nav { background: #34495e; padding: 10px; position: sticky; top: 0; z-index: 1000; display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .nav-btn { background: #2c3e50; color: white; border: 1px solid #7f8c8d; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
-        .nav-btn:hover, .nav-btn.active { background: #3498db; border-color: #2980b9; }
+
+        nav { background: #34495e; padding: 10px; position: sticky; top: 0; z-index: 1000; display: flex; gap: 5px; justify-content: center; }
+        .nav-btn { background: #2c3e50; color: white; border: 1px solid #7f8c8d; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; transition: 0.2s; }
+        .nav-btn.active { background: #3498db; }
+
         .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
-        .step-section { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .step-section.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .split-layout { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 20px;}
-        .table-container { flex: 1.5; }
-        .pool-container { flex: 1; background: #fdfdfd; padding: 15px; border-radius: 6px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; align-items: flex-start;}
-        .pool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;}
-        .draggable { background: var(--primary); color: white; padding: 8px 12px; border-radius: 4px; cursor: grab; font-weight: bold; font-size: 14px; text-align: center; box-shadow: 0 2px 3px rgba(0,0,0,0.2); user-select: none; display: inline-block;}
-        .draggable.locked { background: var(--correct); cursor: default; pointer-events: none; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; background: white;}
-        th, td { border: 1px solid var(--border); padding: 8px; text-align: left; }
-        th { background-color: #f1f2f6; text-align: center; }
-        .dropzone { width: 120px; height: 38px; background: #fafafa; border: 2px dashed #bdc3c7; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;}
-        .dropzone.dragover { background: #e0f7fa; border-color: #00bcd4; }
-        .dropzone.success-zone { background-color: #e8f8f5; border-color: var(--correct); border-style: solid; }
-        .dropzone.error-zone { background-color: #fdedec; border-color: var(--accent); border-style: solid; }
-        .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .quiz-card { background: #fdfdfd; border: 1px solid var(--border); border-radius: 6px; padding: 15px; text-align: center; }
-        .options-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .opt-btn { background: white; border: 2px solid var(--border); padding: 10px; border-radius: 4px; cursor: pointer; }
-        .opt-btn.correct { background: var(--correct) !important; color: white; }
-        .opt-btn.wrong { background: var(--accent) !important; color: white; }
-        .sandhi-pool { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; background: white; padding: 15px; border: 1px dashed #aaa; border-radius: 6px; min-height: 50px; margin-bottom: 20px;}
-        .sandhi-row { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;}
-        .action-btns { display: flex; gap: 15px; justify-content: center; margin-top: 25px; }
-        .btn-main { padding: 12px 25px; background: var(--correct); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
-        .btn-ans { padding: 12px 25px; background: #95a5a6; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
-        .error-msg { text-align: center; margin-top: 10px; font-weight: bold; display: none; color: #c0392b; }
+        .step-section { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .step-section.active { display: block; }
+
+        /* Стили для Сандхи (ЧА) */
+        .sandhi-pool { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; background: #f9f9f9; padding: 15px; border: 1px dashed #aaa; border-radius: 6px; min-height: 50px; margin-bottom: 20px;}
+        .sandhi-row { display: flex; justify-content: center; margin-bottom: 10px; min-height: 40px; }
+        .row-label { width: 120px; font-weight: bold; font-size: 0.9em; align-self: center; color: #7f8c8d; }
+        
+        /* Вторая строка без разрывов */
+        .no-gap { gap: 0 !important; }
+        .no-gap .dropzone { border-radius: 0; border-right-width: 1px; }
+        .no-gap .dropzone:first-child { border-radius: 4px 0 0 4px; }
+        .no-gap .dropzone:last-child { border-radius: 0 4px 4px 0; }
+
+        .draggable { background: var(--primary); color: white; padding: 6px 12px; border-radius: 4px; cursor: grab; font-weight: bold; user-select: none; }
+        .dropzone { width: 100px; height: 38px; background: #fff; border: 2px dashed #bdc3c7; display: flex; align-items: center; justify-content: center; margin: 0 2px; }
+        .no-gap .dropzone { margin: 0; width: 90px; }
+
+        .success-zone { border-color: var(--correct); background: #e8f8f5; }
+        .error-zone { border-color: var(--accent); background: #fdedec; }
+
+        .quiz-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 20px; background: #fff; }
+        .action-btns { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+        .btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-check { background: var(--correct); color: white; }
+        .btn-hint { background: #f39c12; color: white; }
+        .btn-reset { background: #95a5a6; color: white; }
+
+        /* Словарь */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="spinner"></div>
-        <div id="loader-text">Синхронизация с Google Таблицами...</div>
-    </div>
+    <div id="loader"><div class="spinner"></div><div>Загрузка данных...</div></div>
 
     <nav id="navbar" style="display:none;">
-        <button class="nav-btn active" onclick="navTo('theory')">Теория (Оптатив)</button>
-        <button class="nav-btn" onclick="navTo('decl')">Склонения (ī, ū)</button>
+        <button class="nav-btn active" onclick="navTo('sandhi-ca')">Сандхи 'ca'</button>
         <button class="nav-btn" onclick="navTo('vocab')">Словарь</button>
-        <button class="nav-btn" onclick="navTo('sandhi-ca')">Сандхи 'ca'</button>
-        <button class="nav-btn" onclick="navTo('two-stage')">Разбор текстов</button>
+        <button class="nav-btn" onclick="navTo('texts')">Разбор текстов</button>
     </nav>
 
     <div class="container" id="main-container" style="display:none;">
-        <div id="theory" class="step-section active"><h2>Значения Optativus</h2><div id="theoryGrid"></div></div>
-        <div id="decl" class="step-section"><h2>Склонения nadī и vadhū</h2><div id="decl-content"></div></div>
+        <div id="sandhi-ca" class="step-section active"><h2>Упражнения на Сандхи</h2><div id="ca-container"></div></div>
         <div id="vocab" class="step-section"><h2>Словарь</h2><div id="vocab-container" class="vocab-grid"></div></div>
-        <div id="sandhi-ca" class="step-section"><h2>Сандхи с 'ca'</h2><div id="ca-container"></div></div>
-        <div id="two-stage" class="step-section"><h2>Разбор предложений</h2><div id="two-stage-container"></div></div>
+        <div id="texts" class="step-section"><h2>Разбор текстов</h2><div id="texts-container"></div></div>
     </div>
 
     <script>
-        // ССЫЛКИ ИЗ ТВОЕЙ ТАБЛИЦЫ
         const URL_VOCAB = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=2016537516&single=true&output=csv";
         const URL_SANDHI = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=574162119&single=true&output=csv";
         const URL_TEXTS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=1185560149&single=true&output=csv";
 
-        const DB = { vocab: [], sandhiCa: [], texts: [] };
+        const DB = { vocab: [], sandhi: [], texts: [] };
 
         function parseCSV(str) {
-            let arr = []; let quote = false; let row = 0, col = 0;
-            for (let c = 0; c < str.length; c++) {
-                let cc = str[c], nc = str[c+1];
-                arr[row] = arr[row] || []; arr[row][col] = arr[row][col] || '';
-                if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
-                if (cc == '"') { quote = !quote; continue; }
-                if (cc == ',' && !quote) { ++col; continue; }
-                if (cc == '\n' && !quote) { ++row; col = 0; continue; }
-                arr[row][col] += cc;
-            }
-            return arr;
+            return str.split('\n').filter(row => row.trim()).map(row => {
+                let res = []; let q = false; let cur = '';
+                for (let char of row) {
+                    if (char === '"') q = !q;
+                    else if (char === ',' && !q) { res.push(cur.trim()); cur = ''; }
+                    else cur += char;
+                }
+                res.push(cur.trim()); return res;
+            });
         }
 
-        async function fetchData() {
+        async function init() {
             try {
-                const [resVocab, resSandhi, resTexts] = await Promise.all([
+                const [vRaw, sRaw, tRaw] = await Promise.all([
                     fetch(URL_VOCAB).then(r => r.text()),
                     fetch(URL_SANDHI).then(r => r.text()),
                     fetch(URL_TEXTS).then(r => r.text())
                 ]);
-                DB.vocab = parseCSV(resVocab).slice(1);
-                const sRows = parseCSV(resSandhi).slice(1);
-                sRows.forEach(r => { if(r[0]) DB.sandhiCa.push({ ru: r[0], row1: r[1].split(','), row2: r[2].split(','), pool: r[3] ? r[3].split(',') : [] }); });
+                DB.vocab = parseCSV(vRaw).slice(1);
+                DB.sandhi = parseCSV(sRaw).slice(1);
                 
-                const tRows = parseCSV(resTexts).slice(1);
-                let tMap = {};
-                tRows.forEach(r => {
-                    if(!r[0]) return;
-                    if(!tMap[r[0]]) tMap[r[0]] = { title: r[1], title_iast: r[2], parts: [], words: [] };
-                    tMap[r[0]].parts.push(r[4]);
-                    tMap[r[0]].words.push({ q: r[3], iast: r[4], a: r[5], d: [r[6], r[7]] });
-                });
-                DB.texts = Object.values(tMap);
-                initApp();
-            } catch (e) { document.getElementById('loader-text').innerText = "Ошибка загрузки данных. Проверьте публикацию CSV."; }
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('navbar').style.display = 'flex';
+                document.getElementById('main-container').style.display = 'block';
+                
+                renderSandhi();
+                renderVocab();
+            } catch (e) { alert("Ошибка загрузки. Проверьте CSV."); }
         }
 
-        function shuffle(a) { for(let i = a.length-1; i>0; i--){const j = Math.floor(Math.random()*(i+1)); [a[i], a[j]]=[a[j], a[i]];} return a; }
-
-        function buildPool(poolId, dataArray) {
-            const pool = document.getElementById(poolId);
-            pool.innerHTML = '';
-            // ОТКЛЮЧЕНО УДАЛЕНИЕ ДУБЛЕЙ (Set), чтобы два 'ca' превратились в две кнопки
-            shuffle([...dataArray]).forEach((text, i) => {
-                if(!text.trim()) return;
-                const el = document.createElement('div');
-                el.className = 'draggable'; el.draggable = true; 
-                el.id = poolId + '_item_' + i; el.textContent = text.trim();
-                el.dataset.sourcePool = poolId;
-                pool.appendChild(el);
+        function renderSandhi() {
+            const cont = document.getElementById('ca-container');
+            DB.sandhi.forEach((item, idx) => {
+                if(!item[1]) return;
+                const poolId = `pool_${idx}`;
+                const row1Words = item[1].split(',');
+                const row2Words = item[2].split(',');
+                const traps = item[3] ? item[3].split(',') : [];
+                
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.innerHTML = `
+                    <p><strong>${item[0]}</strong></p>
+                    <div id="${poolId}" class="sandhi-pool"></div>
+                    <div class="sandhi-row"><div class="row-label">Исходные:</div> ${row1Words.map(w => `<div class="dropzone" data-ans="${w.trim()}"></div>`).join('')}</div>
+                    <div class="sandhi-row no-gap"><div class="row-label">Результат:</div> ${row2Words.map(w => `<div class="dropzone" data-ans="${w.trim()}"></div>`).join('')}</div>
+                    <div class="action-btns">
+                        <button class="btn btn-check" onclick="checkSandhi(${idx})">Проверить</button>
+                        <button class="btn btn-hint" onclick="showHint(${idx})">Подсказка</button>
+                        <button class="btn btn-reset" onclick="resetSandhi(${idx})">Сброс</button>
+                    </div>
+                `;
+                cont.appendChild(card);
+                fillPool(poolId, [...row1Words, ...row2Words, ...traps]);
             });
         }
 
-        // Drag & Drop Logic
-        document.addEventListener('dragstart', e => { e.dataTransfer.setData('text', e.target.id); });
+        function fillPool(id, words) {
+            const pool = document.getElementById(id);
+            pool.innerHTML = '';
+            words.sort(() => Math.random() - 0.5).forEach(w => {
+                const d = document.createElement('div');
+                d.className = 'draggable'; d.draggable = true; d.textContent = w.trim();
+                d.ondragstart = e => e.dataTransfer.setData('text', w.trim()) || (window.currentDrag = d);
+                pool.appendChild(d);
+            });
+        }
+
+        function renderVocab() {
+            const cont = document.getElementById('vocab-container');
+            DB.vocab.forEach(v => {
+                const d = document.createElement('div'); d.className = 'quiz-card';
+                d.innerHTML = `<span class="sanskrit">${v[0]}</span><br><small>${v[1]}</small><br><strong>${v[2]}</strong>`;
+                cont.appendChild(d);
+            });
+        }
+
+        // Логика Drag & Drop
         document.addEventListener('dragover', e => e.preventDefault());
         document.addEventListener('drop', e => {
-            e.preventDefault();
-            const id = e.dataTransfer.getData('text');
-            const el = document.getElementById(id);
-            const target = e.target.closest('.dropzone') || e.target.closest('.sandhi-pool');
-            if (target && !target.classList.contains('locked')) {
-                if(target.classList.contains('dropzone') && target.children.length > 0) {
-                    document.getElementById(el.dataset.sourcePool).appendChild(target.children[0]);
-                }
-                target.appendChild(el);
-                target.classList.remove('error-zone', 'success-zone');
-            }
+            const zone = e.target.closest('.dropzone');
+            const pool = e.target.closest('.sandhi-pool');
+            if (zone && window.currentDrag) {
+                if (zone.children.length) zone.closest('.quiz-card').querySelector('.sandhi-pool').appendChild(zone.children[0]);
+                zone.appendChild(window.currentDrag);
+            } else if (pool && window.currentDrag) pool.appendChild(window.currentDrag);
         });
 
-        function renderCa() {
-            const container = document.getElementById('ca-container');
-            DB.sandhiCa.forEach((item, idx) => {
-                const poolId = `ca_pool_${idx}`;
-                const row1 = item.row1.map(a => `<div class="dropzone" data-ans="${a.trim()}"></div>`).join('');
-                const row2 = item.row2.map(a => `<div class="dropzone" data-ans="${a.trim()}"></div>`).join('');
-                const div = document.createElement('div');
-                div.className = 'quiz-card';
-                div.innerHTML = `<h3>${item.ru}</h3><div class="sandhi-pool" id="${poolId}"></div>
-                    <div class="sandhi-row">${row1}</div><div class="sandhi-row">${row2}</div>
-                    <button class="btn-main" onclick="checkRow('${idx}')">Проверить</button>`;
-                container.appendChild(div);
-                // Собираем все слова из обеих строк + PoolTraps (это дает два 'ca' в кнопках)
-                buildPool(poolId, [...item.row1, ...item.row2, ...item.pool]);
-            });
-        }
-
-        window.checkRow = function(idx) {
-            const zones = document.querySelectorAll(`#ca-container .quiz-card:nth-child(${parseInt(idx)+1}) .dropzone`);
+        window.checkSandhi = (idx) => {
+            const zones = document.querySelectorAll(`.quiz-card:nth-child(${idx+1}) .dropzone`);
             zones.forEach(z => {
-                if(z.innerText.trim() === z.dataset.ans) z.classList.add('success-zone');
-                else z.classList.add('error-zone');
+                const isCorrect = z.textContent.trim() === z.dataset.ans;
+                z.className = 'dropzone ' + (isCorrect ? 'success-zone' : 'error-zone');
             });
-        }
+        };
 
-        function initApp() {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('navbar').style.display = 'flex';
-            document.getElementById('main-container').style.display = 'block';
-            renderCa();
-            // Остальные рендеры (vocab, texts) здесь...
-        }
+        window.showHint = (idx) => {
+            const zones = document.querySelectorAll(`.quiz-card:nth-child(${idx+1}) .dropzone`);
+            zones.forEach(z => { z.textContent = z.dataset.ans; z.className = 'dropzone success-zone'; });
+        };
 
-        function navTo(id) {
-            document.querySelectorAll('.step-section, .nav-btn').forEach(el => el.classList.remove('active'));
+        window.resetSandhi = (idx) => {
+            const card = document.querySelectorAll('.quiz-card')[idx];
+            const pool = card.querySelector('.sandhi-pool');
+            card.querySelectorAll('.dropzone').forEach(z => {
+                if (z.children.length) pool.appendChild(z.children[0]);
+                z.className = 'dropzone';
+            });
+        };
+
+        window.navTo = (id) => {
+            document.querySelectorAll('.step-section, .nav-btn').forEach(e => e.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             event.target.classList.add('active');
-        }
+        };
 
-        fetchData();
+        init();
     </script>
 </body>
 </html>
