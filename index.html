@@ -6,106 +6,145 @@
     <title>Санскрит: Учебный комплекс (Кочергина)</title>
     <style>
         :root { --primary: #2c3e50; --accent: #e74c3c; --bg: #ecf0f1; --correct: #27ae60; --border: #bdc3c7; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--primary); margin: 0; padding: 0; font-size: 15px; padding-bottom: 50px; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--primary); margin: 0; padding: 0; font-size: 14px; padding-bottom: 50px; }
         .sanskrit { font-family: "Sanskrit Text", "Mangal", "Arial Unicode MS", sans-serif; font-weight: bold; color: #2980b9; font-size: 1.2em;}
-        
         #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .spinner { border: 6px solid #f3f3f3; border-top: 6px solid #3498db; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 20px;}
+        .spinner { border: 6px solid #f3f3f3; border-top: 6px solid #3498db; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        nav { background: #34495e; padding: 10px; position: sticky; top: 0; z-index: 1000; display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; }
-        .nav-btn { background: #2c3e50; color: white; border: 1px solid #7f8c8d; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
-        .nav-btn:hover, .nav-btn.active { background: #3498db; }
-
-        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
-        .step-section { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        nav { background: #34495e; padding: 8px; position: sticky; top: 0; z-index: 1000; display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
+        .nav-btn { background: #2c3e50; color: white; border: 1px solid #7f8c8d; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .nav-btn.active { background: #3498db; }
+        .container { max-width: 1000px; margin: 15px auto; padding: 0 10px; }
+        .step-section { display: none; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; }
         .step-section.active { display: block; }
-
-        /* Таблицы и Дропзоны */
-        table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
-        th, td { border: 1px solid var(--border); padding: 8px; text-align: left; }
-        .dropzone { width: 110px; height: 35px; background: #fafafa; border: 2px dashed #bdc3c7; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; border-radius: 4px; }
-        .success-zone { border-color: var(--correct); background: #e8f8f5; border-style: solid; }
-        .error-zone { border-color: var(--accent); background: #fdedec; border-style: solid; }
-        
-        /* Слитное написание сандхи */
-        .sandhi-row-tight { display: flex; justify-content: center; gap: 0; margin-top: 10px; }
-        .sandhi-row-tight .dropzone { border-radius: 0; margin: 0; border-right-width: 1px; width: 90px; }
+        .pool-wrapper { background: #f9f9f9; padding: 12px; border: 1px dashed #aaa; border-radius: 6px; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 15px; min-height: 45px; }
+        .draggable { background: var(--primary); color: white; padding: 5px 10px; border-radius: 4px; cursor: grab; font-weight: bold; user-select: none; font-size: 13px; }
+        .draggable.locked { background: var(--correct); pointer-events: none; }
+        .dropzone { width: 95px; height: 32px; background: #fafafa; border: 2px dashed #bdc3c7; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; margin: 2px; transition: 0.2s; }
+        .sandhi-row-tight { display: flex; justify-content: center; gap: 0; margin-top: 8px; }
+        .sandhi-row-tight .dropzone { border-radius: 0; margin: 0; border-right-width: 1px; width: 85px; }
         .sandhi-row-tight .dropzone:first-child { border-radius: 4px 0 0 4px; }
         .sandhi-row-tight .dropzone:last-child { border-radius: 0 4px 4px 0; border-right-width: 2px; }
-
-        .pool-wrapper { background: #f9f9f9; padding: 15px; border: 1px dashed #aaa; border-radius: 6px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; min-height: 50px; }
-        .draggable { background: var(--primary); color: white; padding: 6px 12px; border-radius: 4px; cursor: grab; font-weight: bold; user-select: none; }
-        .draggable.locked { background: var(--correct); pointer-events: none; }
-
-        .action-btns { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
-        .btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: white; }
-        .btn-check { background: var(--correct); }
-        .btn-ans { background: #95a5a6; }
-        .btn-reset { background: #7f8c8d; }
-
-        /* Специфичные сетки */
-        .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .quiz-card { background: #fdfdfd; border: 1px solid var(--border); border-radius: 6px; padding: 15px; text-align: center; }
-        .options-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .opt-btn { background: white; border: 2px solid var(--border); padding: 8px; border-radius: 4px; cursor: pointer; }
-        .opt-btn.correct { background: var(--correct); color: white; border-color: #219a52; }
-        .opt-btn.wrong { background: var(--accent); color: white; }
+        .success-zone { border-color: var(--correct); background: #e8f8f5; border-style: solid; }
+        .error-zone { border-color: var(--accent); background: #fdedec; border-style: solid; }
+        .quiz-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 15px; background: #fdfdfd; text-align: center; }
+        .action-btns { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+        .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; color: white; font-size: 13px; }
+        .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .opt-btn { background: white; border: 2px solid var(--border); padding: 6px; border-radius: 4px; cursor: pointer; transition: 0.2s; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { border: 1px solid var(--border); padding: 6px; text-align: left; }
     </style>
 </head>
 <body>
-
-    <div id="loader"><div class="spinner"></div><div>Синхронизация данных...</div></div>
-
+    <div id="loader"><div class="spinner"></div><div>Синхронизация...</div></div>
     <nav id="navbar" style="display:none;">
-        <button class="nav-btn active" onclick="navTo('theory')">Теория (Оптатив)</button>
-        <button class="nav-btn" onclick="navTo('decl')">Склонения (ī, ū)</button>
+        <button class="nav-btn active" onclick="navTo('theory')">Оптатив</button>
+        <button class="nav-btn" onclick="navTo('decl')">Склонения</button>
         <button class="nav-btn" onclick="navTo('fem')">Женский род</button>
-        <button class="nav-btn" onclick="navTo('vocab')">Словарь</button>
         <button class="nav-btn" onclick="navTo('sandhi-ca')">Сандхи 'ca'</button>
-        <button class="nav-btn" onclick="navTo('two-stage')">Разбор текстов</button>
+        <button class="nav-btn" onclick="navTo('vocab')">Словарь</button>
+        <button class="nav-btn" onclick="navTo('two-stage')">Тексты</button>
     </nav>
-
     <div class="container" id="main-container" style="display:none;">
-        
         <div id="theory" class="step-section active">
-            <h2>Оптатив (Желательное наклонение)</h2>
-            <div style="display:flex; justify-content:center; gap:20px; margin-bottom:20px;">
-                <label><input type="radio" name="optLvl" value="1" checked onchange="switchOptLvl()"> Уровень 1</label>
-                <label><input type="radio" name="optLvl" value="2" onchange="switchOptLvl()"> Уровень 2</label>
+            <h2>Оптатив</h2>
+            <div style="text-align:center; margin-bottom:15px;">
+                <label><input type="radio" name="optLvl" value="1" checked onchange="switchOptLvl()"> Учеба</label>
+                <label style="margin-left:15px;"><input type="radio" name="optLvl" value="2" onchange="switchOptLvl()"> Профи</label>
             </div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                <div id="likh-box">
-                    <table id="tableLikh">
-                        <tr><th colspan="4">likh (Parasmaipada)</th></tr>
-                        <tr><td>1 л.</td><td><div class="dropzone" data-ans="likheyam"></div></td><td><div class="dropzone" data-ans="likheva"></div></td><td><div class="dropzone" data-ans="likhema"></div></td></tr>
-                        <tr><td>2 л.</td><td><div class="dropzone" data-ans="likhes"></div></td><td><div class="dropzone" data-ans="likhetam"></div></td><td><div class="dropzone" data-ans="likheta"></div></td></tr>
-                        <tr><td>3 л.</td><td><div class="dropzone" data-ans="likhet"></div></td><td><div class="dropzone" data-ans="likhetām"></div></td><td><div class="dropzone" data-ans="likheyur"></div></td></tr>
-                    </table>
-                    <div class="pool-wrapper" id="poolLikh"></div>
-                </div>
-                <div id="bhas-box">
-                    <table id="tableBhas">
-                        <tr><th colspan="4">bhāṣ (Ātmanepada)</th></tr>
-                        <tr><td>1 л.</td><td><div class="dropzone" data-ans="bhāṣeya"></div></td><td><div class="dropzone" data-ans="bhāṣevahi"></div></td><td><div class="dropzone" data-ans="bhāṣemahi"></div></td></tr>
-                        <tr><td>2 л.</td><td><div class="dropzone" data-ans="bhāṣethās"></div></td><td><div class="dropzone" data-ans="bhāṣeyāthām"></div></td><td><div class="dropzone" data-ans="bhāṣedhvam"></div></td></tr>
-                        <tr><td>3 л.</td><td><div class="dropzone" data-ans="bhāṣeta"></div></td><td><div class="dropzone" data-ans="bhāṣeyātām"></div></td><td><div class="dropzone" data-ans="bhāṣeran"></div></td></tr>
-                    </table>
-                    <div class="pool-wrapper" id="poolBhas"></div>
-                </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div><table id="tableLikh"><tr><th colspan="4">likh</th></tr>
+                <tr><td>1</td><td><div class="dropzone" data-ans="likheyam"></div></td><td><div class="dropzone" data-ans="likheva"></div></td><td><div class="dropzone" data-ans="likhema"></div></td></tr>
+                <tr><td>2</td><td><div class="dropzone" data-ans="likhes"></div></td><td><div class="dropzone" data-ans="likhetam"></div></td><td><div class="dropzone" data-ans="likheta"></div></td></tr>
+                <tr><td>3</td><td><div class="dropzone" data-ans="likhet"></div></td><td><div class="dropzone" data-ans="likhetām"></div></td><td><div class="dropzone" data-ans="likheyur"></div></td></tr>
+                </table><div class="pool-wrapper" id="poolLikh"></div></div>
+                <div><table id="tableBhas"><tr><th colspan="4">bhāṣ</th></tr>
+                <tr><td>1</td><td><div class="dropzone" data-ans="bhāṣeya"></div></td><td><div class="dropzone" data-ans="bhāṣevahi"></div></td><td><div class="dropzone" data-ans="bhāṣemahi"></div></td></tr>
+                <tr><td>2</td><td><div class="dropzone" data-ans="bhāṣethās"></div></td><td><div class="dropzone" data-ans="bhāṣeyāthām"></div></td><td><div class="dropzone" data-ans="bhāṣedhvam"></div></td></tr>
+                <tr><td>3</td><td><div class="dropzone" data-ans="bhāṣeta"></div></td><td><div class="dropzone" data-ans="bhāṣeyātām"></div></td><td><div class="dropzone" data-ans="bhāṣeran"></div></td></tr>
+                </table><div class="pool-wrapper" id="poolBhas"></div></div>
             </div>
-            <div class="action-btns">
-                <button class="btn btn-check" onclick="checkTable('theory')">Проверить</button>
-                <button class="btn btn-reset" onclick="resetSection('theory')">Сброс</button>
-            </div>
+            <div class="action-btns"><button class="btn" style="background:var(--correct)" onclick="checkTab('theory')">Проверить</button><button class="btn" style="background:#7f8c8d" onclick="resetSection('theory')">Сброс</button></div>
         </div>
-
-        <div id="decl" class="step-section">
-            <h2>Склонения основ на -ī и -ū</h2>
-            <div id="decl-nadi">
-                <h3 class="sanskrit">nadī (नदी) f - река</h3>
-                <table style="max-width:600px; margin: 0 auto;">
-                    <tr><td>N.sg</td><td><div class="dropzone" data-ans="nadī"></div></td><td>V.sg</td><td><div class="dropzone" data-ans="nadi"></div></td></tr>
-                    <tr><td>A.sg</td><td><div class="dropzone" data-ans="nadīm"></div></td><td>I.sg</td><td><div class="dropzone" data-ans="nadyā"></div></td></tr>
-                    <tr><td>D.sg</td><td><div class="dropzone" data-ans="nadyai"></div></td><td>L.sg</td><td><div class="dropzone" data-ans="nadyām"></div></td></tr>
-                    <tr><td>N.V.pl</td><td><div class="dropzone" data-ans="nadyas"></div></td><td>A.pl</td><td><div class="dropzone" data-ans="nadīs"></div></td></tr>
+        <div id="decl" class="step-section"><h2>Склонения nadī</h2><div id="poolDecl" class="pool-wrapper"></div>
+            <table style="max-width:500px; margin:auto"><tr><td>N.sg</td><td><div class="dropzone" data-ans="nadī"></div></td><td>V.sg</td><td><div class="dropzone" data-ans="nadi"></div></td></tr>
+            <tr><td>A.sg</td><td><div class="dropzone" data-ans="nadīm"></div></td><td>I.sg</td><td><div class="dropzone" data-ans="nadyā"></div></td></tr>
+            <tr><td>D.sg</td><td><div class="dropzone" data-ans="nadyai"></div></td><td>L.sg</td><td><div class="dropzone" data-ans="nadyām"></div></td></tr></table>
+            <div class="action-btns"><button class="btn" style="background:var(--correct)" onclick="checkTab('decl')">Проверить</button><button class="btn" style="background:#7f8c8d" onclick="resetSection('decl')">Сброс</button></div>
+        </div>
+        <div id="fem" class="step-section"><h2>Женский род</h2><div id="fem-cont" class="vocab-grid"></div></div>
+        <div id="sandhi-ca" class="step-section"><h2>Сандхи 'ca'</h2><div id="ca-cont"></div></div>
+        <div id="vocab" class="step-section"><h2>Словарь</h2><div id="v-cont" class="vocab-grid"></div></div>
+        <div id="two-stage" class="step-section"><h2>Разбор текстов</h2><div id="t-cont"></div></div>
+    </div>
+    <script>
+        const URLS = {
+            v: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=2016537516&single=true&output=csv",
+            s: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=574162119&single=true&output=csv",
+            t: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=1185560149&single=true&output=csv"
+        };
+        let DB = { v:[], s:[], t:[] };
+        async function start() {
+            try {
+                const [rv, rs, rt] = await Promise.all([fetch(URLS.v).then(r=>r.text()), fetch(URLS.s).then(r=>r.text()), fetch(URLS.t).then(r=>r.text())]);
+                DB.v = p(rv).slice(1); DB.s = p(rs).slice(1); DB.t = pT(rt);
+                document.getElementById('loader').style.display='none'; document.getElementById('navbar').style.display='flex'; document.getElementById('main-container').style.display='block';
+                render();
+            } catch(e) { document.getElementById('loader').innerText="Ошибка CSV. Проверьте публикацию листов."; }
+        }
+        function p(c){ return c.split('\n').filter(r=>r).map(r=>{ let res=[], q=false, cur=''; for(let ch of r){ if(ch==='"')q=!q; else if(ch===','&&!q){res.push(cur.trim());cur='';} else cur+=ch; } res.push(cur.trim()); return res; }); }
+        function pT(c){ let rows=p(c).slice(1), m={}; rows.forEach(r=>{ if(!r[0])return; if(!m[r[0]])m[r[0]]={dev:r[1], iast:r[2], parts:[], words:[]}; m[r[0]].parts.push(r[4]); m[r[0]].words.push({q:r[3], iast:r[4], a:r[5], d:[r[6], r[7]]}); }); return Object.values(m); }
+        function render() {
+            const cc = document.getElementById('ca-cont'); cc.innerHTML='';
+            DB.s.forEach((item, i) => {
+                const pid = `p_ca_${i}`; const r1 = item[1].split(','); const r2 = item[2].split(',');
+                const d = document.createElement('div'); d.className='quiz-card';
+                d.innerHTML = `<p><b>${item[0]}</b></p><div id="${pid}" class="pool-wrapper"></div>
+                    <div style="margin-bottom:8px;">1: ${r1.map(w=>`<div class="dropzone" data-ans="${w}"></div>`).join('')}</div>
+                    <div class="sandhi-row-tight">2: ${r2.map(w=>`<div class="dropzone" data-ans="${w}"></div>`).join('')}</div>
+                    <div class="action-btns"><button class="btn" style="background:var(--correct)" onclick="checkIt(this)">Проверить</button>
+                    <button class="btn" style="background:#95a5a6" onclick="showAns(this)">Ответ</button>
+                    <button class="btn" style="background:#7f8c8d" onclick="resetIt(this, '${pid}')">Сброс</button></div>`;
+                cc.appendChild(d); fP(pid, [...r1, ...r2, ...(item[3]?item[3].split(','):[])], true);
+            });
+            const fc = document.getElementById('fem-cont'); fc.innerHTML='';
+            [{q:"deva (бог)", a:"devī"}, {q:"nara (мужчина)", a:"nārī"}, {q:"suta (сын)", a:"sutā"}].forEach(f=>{
+                const d = document.createElement('div'); d.className='quiz-card';
+                d.innerHTML = `<div>М: ${f.q}</div>Ж: <div class="dropzone" data-ans="${f.a}"></div>`;
+                fc.appendChild(d);
+            });
+            const vc = document.getElementById('v-cont'); vc.innerHTML='';
+            DB.v.slice(0, 10).forEach(v => {
+                const d = document.createElement('div'); d.className='quiz-card';
+                let os = [{t:v[4], c:true}, {t:v[8]||'ловушка', c:false}].sort(()=>Math.random()-0.5);
+                d.innerHTML = `<div class="sanskrit">${v[3]}</div><small>(${v[2]})</small><div class="options-2x2">${os.map(o=>`<button class="opt-btn" onclick="this.className='opt-btn '+( ${o.c}?'correct':'wrong')">${o.t}</button>`).join('')}</div>`;
+                vc.appendChild(d);
+            });
+            const tc = document.getElementById('t-cont'); tc.innerHTML='';
+            DB.t.forEach((t, i) => {
+                const pid = `p_t_${i}`; const d = document.createElement('div'); d.className='quiz-card';
+                d.innerHTML = `<h3 class="sanskrit">${t.dev}</h3><div id="${pid}" class="pool-wrapper"></div>
+                    <div class="sandhi-row-tight">${t.parts.map(p=>`<div class="dropzone" data-ans="${p}"></div>`).join('')}</div>
+                    <div class="action-btns"><button class="btn" style="background:var(--correct)" onclick="checkIt(this)">Проверить</button><button class="btn" style="background:#7f8c8d" onclick="resetIt(this, '${pid}')">Сброс</button></div>`;
+                tc.appendChild(d); fP(pid, [...t.parts, "ca", "sutah"], true);
+            });
+            fP('poolDecl', ["nadī", "nadi", "nadīm", "nadyā", "nadyai", "nadyām"], true); switchOptLvl();
+        }
+        function fP(id, w, dup) { const p = document.getElementById(id); p.innerHTML=''; let arr = dup ? w : [...new Set(w)]; arr.sort(()=>Math.random()-0.5).forEach(t=>{ if(!t)return; const d=document.createElement('div'); d.className='draggable'; d.draggable=true; d.textContent=t; d.dataset.origin=id; p.appendChild(d); }); }
+        function initDD() {
+            document.addEventListener('dragstart', e => { if(e.target.draggable) window.dgd=e.target; });
+            document.addEventListener('dragover', e => e.preventDefault());
+            document.addEventListener('drop', e => { e.preventDefault(); const z=e.target.closest('.dropzone')||e.target.closest('.pool-wrapper'); if(z && window.dgd){ if(z.classList.contains('dropzone')&&z.children.length) document.getElementById(window.dgd.dataset.origin).appendChild(z.children[0]); z.appendChild(window.dgd); z.className='dropzone'; } });
+        }
+        window.checkIt = b => { b.closest('.quiz-card').querySelectorAll('.dropzone').forEach(z => { z.className = 'dropzone ' + (z.innerText.trim() === z.dataset.ans ? 'success-zone' : 'error-zone'); }); };
+        window.showAns = b => { b.closest('.quiz-card').querySelectorAll('.dropzone').forEach(z => { z.innerHTML = `<div class="draggable locked">${z.dataset.ans}</div>`; z.className='dropzone success-zone'; }); };
+        window.resetIt = (b, p) => { const pool = document.getElementById(p); b.closest('.quiz-card').querySelectorAll('.dropzone').forEach(z => { if(z.children.length) pool.appendChild(z.children[0]); z.className='dropzone'; }); };
+        window.checkTab = s => { document.querySelectorAll(`#${s} .dropzone`).forEach(z => { z.className = 'dropzone ' + (z.innerText.trim() === z.dataset.ans ? 'success-zone' : 'error-zone'); }); };
+        window.resetSection = s => { document.querySelectorAll(`#${s} .dropzone`).forEach(z => { if(z.children.length){ const p=document.getElementById(z.children[0].dataset.origin); if(p) p.appendChild(z.children[0]); } z.className='dropzone'; }); };
+        window.navTo = id => { document.querySelectorAll('.step-section, .nav-btn').forEach(e => e.classList.remove('active')); document.getElementById(id).classList.add('active'); event.target.classList.add('active'); window.scrollTo(0,0); };
+        function switchOptLvl() { const lvl = document.querySelector('input[name="optLvl"]:checked').value; document.querySelectorAll('#theory .dropzone').forEach(z=>{ z.innerHTML=''; z.className='dropzone'; if(lvl==="1"){ const d=document.createElement('div'); d.className='draggable locked'; d.textContent=z.dataset.ans; z.appendChild(d); } }); if(lvl==="2"){ fP('poolLikh', ["likheyam","likheva","likhema","likhes","likhetam","likheta","likhet","likhetām","likheyur"], true); fP('poolBhas', ["bhāṣeya","bhāṣevahi","bhāṣemahi","bhāṣethās","bhāṣedhvam","bhāṣeta"], true); } }
+        start(); initDD();
+    </script>
+</body>
+</html>
