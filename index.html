@@ -23,14 +23,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         h1, h2, h3 { text-align: center; margin-top: 0; }
-        .section-desc { text-align: center; color: #7f8c8d; margin-bottom: 20px; font-size: 14px;}
-
-        /* Теория 3x3 */
-        .theory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
-        .theory-card { padding: 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 50px; font-weight: 500; transition: 0.2s; }
-        .theory-card.success { background-color: var(--correct) !important; color: white !important; border-color: #219a52 !important; }
-        .theory-card.error { background-color: var(--accent) !important; color: white !important; border-color: #c0392b !important; }
-
+        
         /* Drag & Drop */
         .split-layout { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 20px;}
         .table-container { flex: 1.5; }
@@ -58,7 +51,7 @@
         .level-switcher label { font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; color: #2c3e50;}
         .opt-pool-wrapper { padding: 15px; border: 1px dashed #aaa; background: #f9f9f9; min-height: 50px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 15px; border-radius: 4px;}
 
-        /* Словарь 2x2 */
+        /* Словари */
         .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         @media (max-width: 768px) { .vocab-grid { grid-template-columns: 1fr; } }
         .quiz-card { background: #fdfdfd; border: 1px solid var(--border); border-radius: 6px; padding: 15px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
@@ -70,14 +63,13 @@
         .opt-btn.correct { background: var(--correct) !important; color: white; border-color: #219a52 !important; pointer-events: none; }
         .opt-btn.wrong { background: var(--accent) !important; color: white; border-color: #c0392b !important; }
 
-        /* Memrise */
         .memrise-container { text-align: center; max-width: 600px; margin: 0 auto; padding: 30px; border: 2px solid var(--border); border-radius: 8px; background: #fff;}
         .progress-bar { width: 100%; background: #eee; border-radius: 10px; height: 12px; margin-bottom: 20px; overflow: hidden;}
         .progress-fill { height: 100%; background: #3498db; width: 0%; transition: width 0.3s; }
         .progress-text { font-size: 13px; color: #7f8c8d; margin-bottom: 20px; font-weight: bold;}
         .mem-word { font-size: 32px; font-weight: bold; margin-bottom: 10px; color: var(--primary); }
 
-        /* Two-Stage Sandhi & Constructor */
+        /* Two-Stage */
         .stage-box { background: #f4f6f7; border: 1px solid #ccc; padding: 20px; border-radius: 6px; margin-bottom: 30px; }
         .sentence-header { font-size: 22px; font-weight: bold; text-align: center; color: #2c3e50; }
         .sentence-sub { font-size: 16px; font-weight: normal; color: #7f8c8d; text-align: center; margin-bottom: 20px; border-bottom: 2px solid #3498db; padding-bottom: 15px;}
@@ -98,13 +90,18 @@
         .btn-ans { padding: 12px 25px; background-color: #95a5a6; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .btn-ans:hover { background-color: #7f8c8d; }
         .error-msg { text-align: center; margin-top: 10px; font-weight: bold; display: none; padding: 10px; border-radius: 4px; color: #c0392b; background: #fadbd8; }
+        
+        .theory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+        .theory-card { padding: 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 50px; font-weight: 500; transition: 0.2s; }
+        .theory-card.success { background-color: var(--correct) !important; color: white !important; border-color: #219a52 !important; }
+        .theory-card.error { background-color: var(--accent) !important; color: white !important; border-color: #c0392b !important; }
     </style>
 </head>
 <body>
 
     <div id="loader">
         <div class="spinner"></div>
-        <div>Загрузка базы данных из Google Таблиц...</div>
+        <div id="loader-text">Загрузка базы данных из Google Таблиц...</div>
     </div>
 
     <nav id="navbar" style="display:none;">
@@ -263,4 +260,75 @@
         const DB = {
             optLikh: ['likheyam','likheva','likhema','likhes','likhetam','likheta','likhet','likhetām','likheyur'],
             optBhas: ['bhāṣeya','bhāṣevahi','bhāṣemahi','bhāṣethās','bhāṣeyāthām','bhāṣedhvam','bhāṣeta','bhāṣeyātām','bhāṣeran'],
-            nadi: ['nadī','nadi','nadīm','nadyā','nadyai','nadyās','nadyām','nadyau','nadyos','nadībhyām','nadyas','nadīs','nadībhis','nadīb
+            nadi: ['nadī','nadi','nadīm','nadyā','nadyai','nadyās','nadyām','nadyau','nadyos','nadībhyām','nadyas','nadīs','nadībhis','nadībhyas','nadīnām','nadīṣu'],
+            vadhu: ['vadhūs','vadhu','vadhūm','vadhvā','vadhvai','vadhvās','vadhvām','vadhvau','vadhvos','vadhūbhyām','vadhvās','vadhūs','vadhūbhis','vadhūbhyas','vadhūnām','vadhūṣu'],
+            fem: [
+                { iast: "deva", dev: "देव", ans: "devī", traps: ["devā","devikā","devi"], trans: "бог — богиня" },
+                { iast: "naṭa", dev: "नट", ans: "naṭī", traps: ["naṭā","naṭikā","naṭu"], trans: "актер — актриса" },
+                { iast: "siṃха", dev: "सिंह", ans: "siṃhī", traps: ["siṃhā","siṃhikā","siṃhi"], trans: "лев — львица" },
+                { iast: "haṃsa", dev: "हंस", ans: "haṃsī", traps: ["haṃsā","haṃsikā","haṃsu"], trans: "гусь — гусыня" },
+                { iast: "mayūra", dev: "मयूर", ans: "mayūrī", traps: ["mayūrā","mayūrikā","mayūri"], trans: "павлин — пава" },
+                { iast: "bālaka", dev: "बालक", ans: "bālikā", traps: ["bālakī","bālakā","bālī"], trans: "мальчик — девочка" },
+                { iast: "nāra", dev: "नार", ans: "nārī", traps: ["nārā","nārikā","nāri"], trans: "мужчина — женщина" },
+                { iast: "suta", dev: "сута", ans: "sutā", traps: ["sutī","sutikā","suti"], trans: "сын — дочь" },
+                { iast: "aśva", dev: "अश्व", ans: "aśvā", traps: ["aśvī","aśvikā","aśvi"], trans: "конь — кобыла" }
+            ],
+            vocab: [], sandhiCa: [], texts: []
+        };
+
+        function parseCSV(str) {
+            let arr = []; let quote = false; let row = 0, col = 0;
+            for (let c = 0; c < str.length; c++) {
+                let cc = str[c], nc = str[c+1];
+                arr[row] = arr[row] || []; arr[row][col] = arr[row][col] || '';
+                if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
+                if (cc == '"') { quote = !quote; continue; }
+                if (cc == ',' && !quote) { ++col; continue; }
+                if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
+                if (cc == '\n' && !quote) { ++row; col = 0; continue; }
+                if (cc == '\r' && !quote) { ++row; col = 0; continue; }
+                arr[row][col] += cc;
+            }
+            return arr;
+        }
+
+        async function fetchGoogleSheets() {
+            try {
+                const [resVocab, resSandhi, resTexts] = await Promise.all([ 
+                    fetch(URL_VOCAB).then(r => r.text()), 
+                    fetch(URL_SANDHI).then(r => r.text()), 
+                    fetch(URL_TEXTS).then(r => r.text()) 
+                ]);
+
+                const rowsVocab = parseCSV(resVocab).slice(1); 
+                rowsVocab.forEach(r => { if(r.length >= 8 && r[2]) DB.vocab.push(r); });
+
+                const rowsSandhi = parseCSV(resSandhi).slice(1);
+                rowsSandhi.forEach(r => {
+                    if(r.length >= 4 && r[0]) {
+                        DB.sandhiCa.push({ ru: r[0], row1: r[1].split(','), row2: r[2].split(','), poolTraps: r[3].split(',') });
+                    }
+                });
+
+                const rowsTexts = parseCSV(resTexts).slice(1);
+                let textMap = {};
+                rowsTexts.forEach(r => {
+                    if(r.length >= 8 && r[0]) {
+                        let sid = r[0];
+                        if(!textMap[sid]) textMap[sid] = { id: sid, title_dev: r[1], title_iast: r[2], parts: [], poolTraps: [], words: [] };
+                        textMap[sid].parts.push(r[4].trim()); 
+                        textMap[sid].poolTraps.push(r[4].trim()); 
+                        if(r[6]) textMap[sid].poolTraps.push(r[6].trim());
+                        if(r[7]) textMap[sid].poolTraps.push(r[7].trim());
+                        textMap[sid].words.push({ q_dev: r[3], q_iast: r[4], a: r[5], d: [r[6], r[7]] });
+                    }
+                });
+                DB.texts = Object.values(textMap);
+                initApp();
+            } catch (error) {
+                console.error("Fetch error:", error);
+                document.getElementById('loader-text').innerHTML = "<div style='color:red;'>Ошибка! Убедитесь, что ВСЕ листы таблицы опубликованы в интернет.</div>";
+            }
+        }
+
+        function shuffle(a) { for(let i = a.length-1; i>0; i--){
