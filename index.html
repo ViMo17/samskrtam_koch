@@ -47,7 +47,6 @@
         
         .label { font-weight: bold; color: #7f8c8d; min-width: 40px; background:#eaeded; }
         .dropzone { width: 120px; height: 38px; background: #fafafa; border: 2px dashed #bdc3c7; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
-        /* Центрируем дропзоны только в таблицах спряжений/склонений */
         table .dropzone { margin: 0 auto; }
         
         .dropzone.dragover { background: #e0f7fa; border-color: #00bcd4; }
@@ -87,11 +86,16 @@
         .sentence-header { font-size: 22px; font-weight: bold; text-align: center; color: #2c3e50; }
         .sentence-sub { font-size: 16px; font-weight: normal; color: #7f8c8d; text-align: center; margin-bottom: 20px; border-bottom: 2px solid #3498db; padding-bottom: 15px;}
         
-        .sandhi-row-merged { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-        .sandhi-row-merged .dropzone { margin: 0; border-radius: 0; border-right: none; }
-        .sandhi-row-merged .dropzone:first-child { border-radius: 4px 0 0 4px; }
+        .sandhi-row { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;}
+        
+        /* Исправленный CSS для слитной строки (Упр 5) */
+        .sandhi-row-merged { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; gap: 0 !important; }
+        .sandhi-row-merged .dropzone { margin: 0; border-radius: 0; border-right: none; border-left: none; }
+        .sandhi-row-merged .dropzone:first-child { border-radius: 4px 0 0 4px; border-left: 2px dashed #bdc3c7; }
         .sandhi-row-merged .dropzone:last-child { border-radius: 0 4px 4px 0; border-right: 2px dashed #bdc3c7; }
+        .sandhi-row-merged .dropzone.success-zone:first-child { border-left: 2px solid var(--correct); }
         .sandhi-row-merged .dropzone.success-zone:last-child { border-right: 2px solid var(--correct); }
+        .sandhi-row-merged .dropzone.error-zone:first-child { border-left: 2px solid var(--accent); }
         .sandhi-row-merged .dropzone.error-zone:last-child { border-right: 2px solid var(--accent); }
 
         .sandhi-pool { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; background: white; padding: 15px; border: 1px dashed #aaa; border-radius: 6px; min-height: 50px; margin-bottom: 20px;}
@@ -113,7 +117,6 @@
     </style>
 </head>
 <body>
-
     <div id="loader">
         <div class="spinner"></div>
         <div>Загрузка базы данных из Google Таблиц...</div>
@@ -191,15 +194,45 @@
             <div class="split-layout" id="declNadiContainer">
                 <div class="table-container">
                     <table id="tableNadi">
-                        <tr><th>Падеж</th><th>Sg.</th><th>Du.</th><th>Pl.</th></tr>
-                        <tr><td class="label">N.</td><td><div class="dropzone" data-ans="nadi"></div></td><td rowspan="3"><div class="dropzone" data-ans="nadyau"></div></td><td rowspan="2"><div class="dropzone" data-ans="nadyas"></div></td></tr>
-                        <tr><td class="label">V.</td><td><div class="dropzone" data-ans="nadi"></div></td></tr>
-                        <tr><td class="label">A.</td><td><div class="dropzone" data-ans="nadim"></div></td><td><div class="dropzone" data-ans="nadis"></div></td></tr>
-                        <tr><td class="label">I.</td><td><div class="dropzone" data-ans="nadya"></div></td><td rowspan="3"><div class="dropzone" data-ans="nadibhyam"></div></td><td><div class="dropzone" data-ans="nadibhis"></div></td></tr>
-                        <tr><td class="label">D.</td><td><div class="dropzone" data-ans="nadyai"></div></td><td rowspan="2"><div class="dropzone" data-ans="nadibhyas"></div></td></tr>
-                        <tr><td class="label">Abl.</td><td rowspan="2"><div class="dropzone" data-ans="nadyas"></div></td></tr>
-                        <tr><td class="label">G.</td><td rowspan="2"><div class="dropzone" data-ans="nadyos"></div></td><td><div class="dropzone" data-ans="nadinam"></div></td></tr>
-                        <tr><td class="label">L.</td><td><div class="dropzone" data-ans="nadyam"></div></td><td><div class="dropzone" data-ans="nadiṣu"></div></td></tr>
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ЕДИНСТВЕННОЕ</td></tr>
+                        <tr>
+                            <td style="width:50%"><div class="cell-content"><span class="label">N.sg</span><div class="dropzone" data-ans="nadī"></div></div></td>
+                            <td style="width:50%"><div class="cell-content"><span class="label">Abl.G.sg</span><div class="dropzone" data-ans="nadyās"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">A.sg</span><div class="dropzone" data-ans="nadīm"></div></div></td>
+                            <td><div class="cell-content"><span class="label">L.sg</span><div class="dropzone" data-ans="nadyām"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">I.sg</span><div class="dropzone" data-ans="nadyā"></div></div></td>
+                            <td><div class="cell-content"><span class="label">V.sg</span><div class="dropzone" data-ans="nadi"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">D.sg</span><div class="dropzone" data-ans="nadyai"></div></div></td>
+                            <td></td>
+                        </tr>
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ДВОЙСТВЕННОЕ</td></tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">N.A.V.du</span><div class="dropzone" data-ans="nadyau"></div></div></td>
+                            <td><div class="cell-content"><span class="label">G.L.du</span><div class="dropzone" data-ans="nadyos"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">I.D.Ab.du</span><div class="dropzone" data-ans="nadībhyām"></div></div></td>
+                            <td></td>
+                        </tr>
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">МНОЖЕСТВЕННОЕ</td></tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">N.V.pl</span><div class="dropzone" data-ans="nadyas"></div></div></td>
+                            <td><div class="cell-content"><span class="label">A.pl</span><div class="dropzone" data-ans="nadīs"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">I.pl</span><div class="dropzone" data-ans="nadībhis"></div></div></td>
+                            <td><div class="cell-content"><span class="label">D.Abl.pl</span><div class="dropzone" data-ans="nadībhyas"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">G.pl</span><div class="dropzone" data-ans="nadīnām"></div></div></td>
+                            <td><div class="cell-content"><span class="label">L.pl</span><div class="dropzone" data-ans="nadīṣu"></div></div></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="pool-container"><div class="pool-grid" id="poolNadi"></div></div>
@@ -217,15 +250,45 @@
             <div class="split-layout" id="declVadhuContainer">
                 <div class="table-container">
                     <table id="tableVadhu">
-                        <tr><th>Падеж</th><th>Sg.</th><th>Du.</th><th>Pl.</th></tr>
-                        <tr><td class="label">N.</td><td><div class="dropzone" data-ans="vadhus"></div></td><td rowspan="3"><div class="dropzone" data-ans="vadhvau"></div></td><td rowspan="2"><div class="dropzone" data-ans="vadhvas"></div></td></tr>
-                        <tr><td class="label">V.</td><td><div class="dropzone" data-ans="vadhu"></div></td></tr>
-                        <tr><td class="label">A.</td><td><div class="dropzone" data-ans="vadhum"></div></td><td><div class="dropzone" data-ans="vadhus"></div></td></tr>
-                        <tr><td class="label">I.</td><td><div class="dropzone" data-ans="vadhva"></div></td><td rowspan="3"><div class="dropzone" data-ans="vadhubhyam"></div></td><td><div class="dropzone" data-ans="vadhubhis"></div></td></tr>
-                        <tr><td class="label">D.</td><td><div class="dropzone" data-ans="vadhvai"></div></td><td rowspan="2"><div class="dropzone" data-ans="vadhubhyas"></div></td></tr>
-                        <tr><td class="label">Abl.</td><td rowspan="2"><div class="dropzone" data-ans="vadhvas"></div></td></tr>
-                        <tr><td class="label">G.</td><td rowspan="2"><div class="dropzone" data-ans="vadhvos"></div></td><td><div class="dropzone" data-ans="vadhunam"></div></td></tr>
-                        <tr><td class="label">L.</td><td><div class="dropzone" data-ans="vadhvam"></div></td><td><div class="dropzone" data-ans="vadhuṣu"></div></td></tr>
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ЕДИНСТВЕННОЕ</td></tr>
+                        <tr>
+                            <td style="width:50%"><div class="cell-content"><span class="label">N.sg</span><div class="dropzone" data-ans="vadhūs"></div></div></td>
+                            <td style="width:50%"><div class="cell-content"><span class="label">Abl.G.sg</span><div class="dropzone" data-ans="vadhvās"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">A.sg</span><div class="dropzone" data-ans="vadhūm"></div></div></td>
+                            <td><div class="cell-content"><span class="label">L.sg</span><div class="dropzone" data-ans="vadhvām"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">I.sg</span><div class="dropzone" data-ans="vadhvā"></div></div></td>
+                            <td><div class="cell-content"><span class="label">V.sg</span><div class="dropzone" data-ans="vadhu"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">D.sg</span><div class="dropzone" data-ans="vadhvai"></div></div></td>
+                            <td></td>
+                        </tr>
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">ДВОЙСТВЕННОЕ</td></tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">N.A.V.du</span><div class="dropzone" data-ans="vadhvau"></div></div></td>
+                            <td><div class="cell-content"><span class="label">G.L.du</span><div class="dropzone" data-ans="vadhvos"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">I.D.Ab.du</span><div class="dropzone" data-ans="vadhūbhyām"></div></div></td>
+                            <td></td>
+                        </tr>
+                        <tr><td colspan="2" style="background:#eaeded; text-align:center; font-weight:bold; font-size:12px;">МНОЖЕСТВЕННОЕ</td></tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">N.V.pl</span><div class="dropzone" data-ans="vadhvās"></div></div></td>
+                            <td><div class="cell-content"><span class="label">A.pl</span><div class="dropzone" data-ans="vadhūs"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">I.pl</span><div class="dropzone" data-ans="vadhūbhis"></div></div></td>
+                            <td><div class="cell-content"><span class="label">D.Abl.pl</span><div class="dropzone" data-ans="vadhūbhyas"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-content"><span class="label">G.pl</span><div class="dropzone" data-ans="vadhūnām"></div></div></td>
+                            <td><div class="cell-content"><span class="label">L.pl</span><div class="dropzone" data-ans="vadhūṣu"></div></div></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="pool-container"><div class="pool-grid" id="poolVadhu"></div></div>
@@ -280,7 +343,6 @@
             <div id="ex5-container"></div>
         </div>
     </div>
-
     <script>
         const URL_VOCAB = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=2016537516&single=true&output=csv";
         const URL_SANDHI = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwQxGc1dAHFLVLpWvYT_5QarBGtK104brQXkfnn3XeRHXDLXK9UgoQ3ovB_Dm_RnobxXXY5kUprFdR/pub?gid=574162119&single=true&output=csv";
@@ -289,8 +351,8 @@
         const DB = {
             optLikh: ['likheyam','likheva','likhema','likhes','likhetam','likheta','likhet','likhetām','likheyur'],
             optBhas: ['bhāṣeya','bhāṣevahi','bhāṣemahi','bhāṣethās','bhāṣeyāthām','bhāṣedhvam','bhāṣeta','bhāṣeyātām','bhāṣeran'],
-            nadi: ['nadi','nadi','nadim','nadya','nadyai','nadyas','nadyam','nadyau','nadyos','nadibhyam','nadyas','nadis','nadibhis','nadibhyas','nadinam','nadiṣu'],
-            vadhu: ['vadhus','vadhu','vadhum','vadhva','vadhvai','vadhvas','vadhvam','vadhvau','vadhvos','vadhubhyam','vadhvas','vadhus','vadhubhis','vadhubhyas','vadhunam','vadhuṣu'],
+            nadi: ['nadī','nadi','nadīm','nadyā','nadyai','nadyās','nadyām','nadyau','nadyos','nadībhyām','nadyas','nadīs','nadībhis','nadībhyas','nadīnām','nadīṣu'],
+            vadhu: ['vadhūs','vadhu','vadhūm','vadhvā','vadhvai','vadhvās','vadhvām','vadhvau','vadhvos','vadhūbhyām','vadhvās','vadhūs','vadhūbhis','vadhūbhyas','vadhūnām','vadhūṣu'],
             fem: [
                 { iast: "deva", dev: "देव", ans: "devī", traps: ["devā","devikā","devi"], trans: "бог — богиня" },
                 { iast: "naṭa", dev: "नट", ans: "naṭī", traps: ["naṭā","naṭikā","naṭi"], trans: "актер — актриса" },
@@ -358,10 +420,12 @@
 
                 const rowsTexts = parseCSV(csvTexts).slice(1);
                 let textMap = {};
+                let uniqueIdCounter = 0; // Для вывода ВСЕХ строк упражнений 5
+                
                 rowsTexts.forEach(r => {
                     if(r.length >= 8 && r[0]) {
-                        let sid = r[0];
-                        if(!textMap[sid]) textMap[sid] = { id: sid, title_dev: r[1], title_iast: r[2], parts: [], words: [] };
+                        let sid = r[0] + "_" + uniqueIdCounter++; 
+                        if(!textMap[sid]) textMap[sid] = { id: r[0], title_dev: r[1], title_iast: r[2], parts: [], words: [] };
                         textMap[sid].parts.push(stripAccents(r[4])); 
                         textMap[sid].words.push({ q_dev: r[3], q_iast: r[4], a: r[5], d: [r[6], r[7]] });
                     }
@@ -557,29 +621,37 @@
             });
         }
 
+        // СЛОВАРЬ (Начало с 12 урока + смена заданий)
         let vocabPage = 0;
+        let currentLessonVocab = [];
+
         function populateVocabLessons() {
             const select = document.getElementById('vocabLessonSelect');
-            const lessons = [...new Set(DB.vocab.filter(v => v[4]).map(v => v[0]))].sort((a,b)=>a-b);
-            let optionsHtml = lessons.map(l => `<option value="${l}" ${l=="1"?'selected':''}>Урок ${l}</option>`).join('');
-            select.innerHTML = optionsHtml;
+            const lessons = [...new Set(DB.vocab.filter(v => v[4]).map(v => parseInt(v[0])))].sort((a,b)=>a-b);
+            let defaultLes = lessons.includes(12) ? 12 : lessons[0];
+            select.innerHTML = lessons.map(l => `<option value="${l}" ${l === defaultLes ? 'selected' : ''}>Урок ${l}</option>`).join('');
         }
 
         function loadNextVocabPage() {
             const container = document.getElementById('vocab-container');
             const size = 10;
             const lesson = document.getElementById('vocabLessonSelect').value;
-            const validVocab = DB.vocab.filter(v => v[4] && v[0] === lesson); 
             
-            if (validVocab.length === 0) {
+            if(vocabPage === 0 || currentLessonVocab.length === 0) {
+                currentLessonVocab = shuffle([...DB.vocab.filter(v => v[4] && v[0] == lesson)]);
+                vocabPage = 0;
+            }
+            
+            if (currentLessonVocab.length === 0) {
                 container.innerHTML = '<div style="grid-column: span 2; text-align: center;">Нет слов для этого урока</div>';
                 return;
             }
 
-            let slice = validVocab.slice(vocabPage*size, (vocabPage*size)+size);
+            let slice = currentLessonVocab.slice(vocabPage*size, (vocabPage*size)+size);
             if(slice.length === 0) {
                 vocabPage = 0; 
-                slice = validVocab.slice(0, size);
+                currentLessonVocab = shuffle(currentLessonVocab);
+                slice = currentLessonVocab.slice(0, size);
             }
             
             container.innerHTML = ''; 
@@ -609,6 +681,7 @@
             vocabPage++;
         }
 
+        // МЕМРАЙЗ (Умный фильтр падежей)
         let memArray = [], memIndex = 0;
         
         function getSmartTraps(item, allVocab) {
@@ -616,11 +689,18 @@
             if(item[8]) item[8].split(',').forEach(t => { if(t.trim()) traps.push(t.trim()); });
             
             let isVerb = /^(он|она|оно|они|мы|вы|я|ты)\b/i.test(item[4]) || /ть$/.test(item[4]);
+            let isSingleWord = item[4].trim().split(' ').length === 1;
+            
             let filterVocab = allVocab;
+            
             if(isVerb) {
                 filterVocab = allVocab.filter(v => (/^(он|она|оно|они|мы|вы|я|ты)\b/i.test(v[4]) || /ть$/.test(v[4])) && v[4] !== item[4]);
             } else {
                 filterVocab = allVocab.filter(v => !(/^(он|она|оно|они|мы|вы|я|ты)\b/i.test(v[4]) || /ть$/.test(v[4])) && v[4] !== item[4]);
+            }
+            
+            if(isSingleWord) {
+                filterVocab = filterVocab.filter(v => v[4].trim().split(' ').length === 1);
             }
             
             while(traps.length < 3 && filterVocab.length > 0) {
@@ -700,6 +780,7 @@
             });
         }
 
+        // Фикс появления зеленого Деванагари
         window.checkCaTask = function(idx) {
             const taskNode = document.getElementById(`ca_task_${idx}`);
             let win = true;
@@ -709,18 +790,25 @@
                 else { z.classList.add('success-zone'); z.classList.remove('error-zone');}
             });
             const err = taskNode.querySelector('.err-ca');
+            let devAns = document.getElementById(`dev_ans_${idx}`);
+            
             if(win) {
                 err.style.display='none';
                 taskNode.querySelectorAll('.draggable').forEach(d => d.classList.add('locked'));
                 taskNode.querySelectorAll('.dropzone').forEach(d => d.classList.add('locked'));
                 taskNode.querySelector('.btn-main').style.display = 'none';
-                let devAns = document.getElementById(`dev_ans_${idx}`);
-                if(devAns && devAns.textContent.trim() !== '') devAns.style.display = 'block';
-            } else { err.style.display='block'; setTimeout(() => taskNode.querySelectorAll('.error-zone').forEach(z => z.classList.remove('error-zone')), 2000); }
+                if(devAns && devAns.textContent.trim() !== '') {
+                    devAns.style.display = 'block';
+                    devAns.style.color = 'var(--correct)';
+                }
+            } else { 
+                err.style.display='block'; 
+                setTimeout(() => taskNode.querySelectorAll('.error-zone').forEach(z => z.classList.remove('error-zone')), 2000); 
+            }
         }
 
         function mutateRussian(word) {
-            let w = word.trim();
+            let w = word ? word.trim() : "";
             let lower = w.toLowerCase();
             if(lower.endsWith('ами')) return w.replace(/ами$/i, 'ах');
             if(lower.endsWith('ах')) return w.replace(/ах$/i, 'ам');
@@ -737,7 +825,7 @@
             if(lower.endsWith('ут')) return w.replace(/ут$/i, 'ет');
             if(lower.endsWith('а')) return w.replace(/а$/i, 'ы');
             if(lower.endsWith('ы')) return w.replace(/ы$/i, 'у');
-            return w + " (ин. форма)";
+            return w + " (иная форма)";
         }
 
         function renderTwoStageTexts(dataArray, containerIdPrefix) {
@@ -747,6 +835,10 @@
             dataArray.forEach((block, idx) => {
                 let cId = `${containerIdPrefix}_box_${idx}`;
                 let poolId = `${containerIdPrefix}_pool_${idx}`;
+                
+                let isEx5 = containerIdPrefix === 'ex5';
+                let rowClass = isEx5 ? "sandhi-row-merged" : "sandhi-row";
+                
                 let dropHtml = block.parts.map(ans => `<div class="dropzone" data-ans="${ans}"></div>`).join('');
                 
                 let wordsHtml = block.words.map(w => {
@@ -761,7 +853,8 @@
                     }
 
                     let btns = shuffle(opts).map(o => `<button class="opt-btn" onclick="handleOptClick(this, ${o.c})">${o.t}</button>`).join('');
-                    return `<div class="quiz-card"><div class="quiz-word sanskrit">${w.q_dev} <br><span style="font-size:14px; color:#7f8c8d;">(${w.q_iast})</span></div><div class="options-2x2">${btns}</div></div>`;
+                    let qTitleHtml = /[\u0900-\u097F]/.test(w.q_dev) ? `<span class="sanskrit">${w.q_dev}</span>` : w.q_dev;
+                    return `<div class="quiz-card"><div class="quiz-word">${qTitleHtml} <br><span style="font-size:14px; color:#7f8c8d;">(${w.q_iast})</span></div><div class="options-2x2">${btns}</div></div>`;
                 }).join('');
 
                 let mainTitle = block.title_dev;
@@ -775,7 +868,7 @@
                         <div class="sentence-header">${hTitleHtml}</div>
                         <div class="sentence-sub">(${sTitleHtml})</div>
                         <div class="sandhi-pool" id="${poolId}"></div>
-                        <div class="sandhi-row-merged sandhi-row">${dropHtml}</div>
+                        <div class="${rowClass}">${dropHtml}</div>
                         <div class="error-msg err-txt">Ошибки в снятии сандхи!</div>
                         <div class="action-btns">
                             <button class="btn-main" onclick="checkSandhiStage('${cId}', '${containerIdPrefix}_trans_${idx}')">Проверить сандхи</button>
@@ -799,7 +892,7 @@
         window.checkSandhiStage = function(boxId, transId) {
             const box = document.getElementById(boxId);
             let win = true;
-            box.querySelectorAll('.sandhi-row .dropzone').forEach(z => {
+            box.querySelectorAll('.sandhi-row .dropzone, .sandhi-row-merged .dropzone').forEach(z => {
                 const child = z.children[0];
                 if(!child || child.dataset.val !== z.dataset.ans) { win=false; z.classList.add('error-zone'); z.classList.remove('success-zone');}
                 else { z.classList.add('success-zone'); z.classList.remove('error-zone');}
@@ -852,6 +945,8 @@
             
             renderFemTask();
             populateVocabLessons();
+            vocabPage = 0;
+            currentLessonVocab = [];
             loadNextVocabPage();
             startMemrise();
             renderCaDragDrop();
